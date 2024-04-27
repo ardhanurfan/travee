@@ -1,25 +1,25 @@
-import EmptyContent from "@/components/EmptyContent";
 import PopularCard from "@/components/PopularCard";
 import Colors from "@/constants/Colors";
-import { StyleSheet, View, Text, FlatList } from "react-native";
+import { useRoute } from "@react-navigation/native";
+import { useRouter } from "expo-router";
+import React from "react";
+import { FlatList, ScrollView } from "react-native";
 import { Appbar } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function SavedPage() {
+function PopularDestinationPage() {
+  const router = useRouter();
+
   return (
     <>
       <Appbar.Header style={{ backgroundColor: Colors.white }}>
+        <Appbar.BackAction onPress={() => router.back()}></Appbar.BackAction>
         <Appbar.Content
-          title="Saved"
+          title="Popular Destinations"
           titleStyle={{ fontFamily: "Figtree_700Bold" }}
         />
         <Appbar.Action icon="magnify" />
       </Appbar.Header>
-      {/* <EmptyContent
-        icon={"folder-open-outline"}
-        caption={
-          "Start building your travel wishlist by saving inspiring destinations and experiences."
-        }
-      /> */}
       <FlatList
         style={{ backgroundColor: Colors.white, paddingHorizontal: 20 }}
         showsVerticalScrollIndicator={false}
@@ -43,3 +43,5 @@ export default function SavedPage() {
     </>
   );
 }
+
+export default PopularDestinationPage;

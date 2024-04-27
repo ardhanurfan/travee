@@ -1,59 +1,71 @@
+import PopularCard from "@/components/PopularCard";
 import Colors from "@/constants/Colors";
-import { View, Text, Image, ScrollView, FlatList } from "react-native";
+import { useRouter } from "expo-router";
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  FlatList,
+  Pressable,
+} from "react-native";
 import { Avatar, Icon, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomePage() {
+  const router = useRouter();
+
   return (
     <SafeAreaView
       edges={["top"]}
       style={{ flex: 1, backgroundColor: Colors.white, paddingHorizontal: 20 }}
     >
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Image
-            source={require("../../assets/images/logo.png")}
-            style={{ width: 60, height: 60 }}
-          />
-          <Text style={{ fontFamily: "Figtree_700Bold", fontSize: 28 }}>
-            Travee
-          </Text>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          height: 80,
+        }}
+      >
+        <Image
+          source={require("../../assets/images/logo.png")}
+          style={{ width: 60, height: 60 }}
+        />
+        <Text style={{ fontFamily: "Figtree_700Bold", fontSize: 28 }}>
+          Travee
+        </Text>
 
-          <View style={{ position: "relative" }}>
-            <Avatar.Image
-              size={60}
-              source={require("../../assets/profile.png")}
-              style={{ backgroundColor: Colors.primary }}
-            />
-            <View
+        <View style={{ position: "relative" }}>
+          <Avatar.Image
+            size={60}
+            source={require("../../assets/profile.png")}
+            style={{ backgroundColor: Colors.primary }}
+          />
+          <View
+            style={{
+              position: "absolute",
+              bottom: -4,
+              transform: [{ translateX: 20 }],
+              backgroundColor: Colors.primary,
+              paddingHorizontal: 4,
+              borderRadius: 4,
+            }}
+          >
+            <Text
               style={{
-                position: "absolute",
-                bottom: -4,
-                transform: [{ translateX: 20 }],
-                backgroundColor: Colors.primary,
-                paddingHorizontal: 4,
-                borderRadius: 4,
+                fontFamily: "Figtree_700Bold",
+                color: Colors.white,
+                fontSize: 10,
               }}
             >
-              <Text
-                style={{
-                  fontFamily: "Figtree_700Bold",
-                  color: Colors.white,
-                  fontSize: 10,
-                }}
-              >
-                VIP
-              </Text>
-            </View>
+              VIP
+            </Text>
           </View>
         </View>
+      </View>
 
+      <ScrollView showsVerticalScrollIndicator={false}>
         {/* Search */}
         <TextInput
           mode="flat"
@@ -80,16 +92,18 @@ export default function HomePage() {
             <Text style={{ fontFamily: "Figtree_700Bold", fontSize: 20 }}>
               Popular Destinations
             </Text>
-            <View
-              style={{ flexDirection: "row", alignItems: "center", gap: 4 }}
-            >
-              <Text
-                style={{ color: Colors.gray, fontFamily: "Figtree_300Light" }}
+            <Pressable onPress={() => router.push("/PopularDestinationPage")}>
+              <View
+                style={{ flexDirection: "row", alignItems: "center", gap: 4 }}
               >
-                See All
-              </Text>
-              <Icon source="arrow-right" size={16} color={Colors.gray}></Icon>
-            </View>
+                <Text
+                  style={{ color: Colors.gray, fontFamily: "Figtree_300Light" }}
+                >
+                  See All
+                </Text>
+                <Icon source="arrow-right" size={16} color={Colors.gray}></Icon>
+              </View>
+            </Pressable>
           </View>
         </View>
         <FlatList
@@ -100,46 +114,17 @@ export default function HomePage() {
               id: 1,
               title: "Jogjakarta, Central Java",
               country: "Indonesia",
-              image: require("../../assets/destination.png"),
+              image: "../../assets/destination.png",
             },
             {
               id: 2,
               title: "Jogjakarta, Central Java",
               country: "Indonesia",
-              image: require("../../assets/destination.png"),
+              image: "../../assets/destination.png",
             },
           ]}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <View style={{ width: 250, marginRight: 16 }}>
-              <Image
-                source={item.image}
-                style={{
-                  width: 250,
-                  height: 160,
-                  objectFit: "cover",
-                  borderRadius: 32,
-                }}
-              />
-              <Text
-                style={{
-                  fontFamily: "Figtree_700Bold",
-                  fontSize: 16,
-                  marginVertical: 8,
-                }}
-              >
-                {item.title}
-              </Text>
-              <Text
-                style={{
-                  fontFamily: "Figtree_300Light",
-                  fontSize: 12,
-                }}
-              >
-                {item.country}
-              </Text>
-            </View>
-          )}
+          renderItem={({ item }) => <PopularCard destination={item} />}
         ></FlatList>
 
         {/* Upcoming */}
@@ -187,7 +172,7 @@ export default function HomePage() {
                   width: "100%",
                   height: 200,
                   objectFit: "cover",
-                  borderRadius: 32,
+                  borderRadius: 20,
                 }}
               />
               <Text

@@ -1,4 +1,3 @@
-import Colors from "@/constants/Colors";
 import {
   Figtree_300Light,
   Figtree_400Regular,
@@ -57,6 +56,10 @@ function RootLayoutNav() {
   return (
     <Stack>
       <Stack.Screen name="(main)" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="PopularDestinationPage"
+        options={{ headerShown: false }}
+      />
     </Stack>
   );
 }
