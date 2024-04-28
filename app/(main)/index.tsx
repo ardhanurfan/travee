@@ -1,4 +1,5 @@
-import PopularCard from "@/components/PopularCard";
+import DestinationCard from "@/components/DestinationCard";
+import MyTripCard from "@/components/MyTripCard";
 import Colors from "@/constants/Colors";
 import { useRouter } from "expo-router";
 import {
@@ -124,7 +125,7 @@ export default function HomePage() {
             },
           ]}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <PopularCard destination={item} />}
+          renderItem={({ item }) => <DestinationCard destination={item} />}
         ></FlatList>
 
         {/* Upcoming */}
@@ -133,18 +134,20 @@ export default function HomePage() {
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <Text style={{ fontFamily: "Figtree_700Bold", fontSize: 20 }}>
-              Popular Destinations
+              Upcoming Trips
             </Text>
-            <View
-              style={{ flexDirection: "row", alignItems: "center", gap: 4 }}
-            >
-              <Text
-                style={{ color: Colors.gray, fontFamily: "Figtree_300Light" }}
+            <Pressable onPress={() => router.push("/MyTripsPage")}>
+              <View
+                style={{ flexDirection: "row", alignItems: "center", gap: 4 }}
               >
-                See All
-              </Text>
-              <Icon source="arrow-right" size={16} color={Colors.gray}></Icon>
-            </View>
+                <Text
+                  style={{ color: Colors.gray, fontFamily: "Figtree_300Light" }}
+                >
+                  See All
+                </Text>
+                <Icon source="arrow-right" size={16} color={Colors.gray}></Icon>
+              </View>
+            </Pressable>
           </View>
         </View>
         <FlatList
@@ -164,36 +167,7 @@ export default function HomePage() {
             },
           ]}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <View style={{ flex: 1, marginBottom: 16 }}>
-              <Image
-                source={item.image}
-                style={{
-                  width: "100%",
-                  height: 200,
-                  objectFit: "cover",
-                  borderRadius: 20,
-                }}
-              />
-              <Text
-                style={{
-                  fontFamily: "Figtree_700Bold",
-                  fontSize: 16,
-                  marginVertical: 8,
-                }}
-              >
-                {item.title}
-              </Text>
-              <Text
-                style={{
-                  fontFamily: "Figtree_300Light",
-                  fontSize: 12,
-                }}
-              >
-                {item.fasility}
-              </Text>
-            </View>
-          )}
+          renderItem={({ item }) => <MyTripCard trip={item} />}
         ></FlatList>
       </ScrollView>
     </SafeAreaView>

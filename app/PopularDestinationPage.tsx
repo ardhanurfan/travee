@@ -1,4 +1,4 @@
-import PopularCard from "@/components/PopularCard";
+import PopularCard from "@/components/DestinationCard";
 import Colors from "@/constants/Colors";
 import { useRoute } from "@react-navigation/native";
 import { useRouter } from "expo-router";

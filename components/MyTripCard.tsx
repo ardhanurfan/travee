@@ -1,29 +1,17 @@
 import Colors from "@/constants/Colors";
-import { Destination } from "@/constants/Types";
+import { Trip } from "@/constants/Types";
 import React from "react";
 import { View, Image, Text } from "react-native";
 import { IconButton } from "react-native-paper";
 
-function PopularCard({
-  detail = false,
-  destination,
-}: {
-  detail?: boolean;
-  destination: Destination;
-}) {
+function MyTripCard({ trip }: { trip: Trip }) {
   return (
-    <View
-      style={{
-        width: detail ? "100%" : 250,
-        marginRight: detail ? 0 : 16,
-        marginBottom: detail ? 16 : 0,
-      }}
-    >
+    <View style={{ flex: 1, marginBottom: 16 }}>
       <Image
         source={require("../assets/destination.png")}
         style={{
-          width: detail ? "100%" : 250,
-          height: detail ? 200 : 160,
+          width: "100%",
+          height: 200,
           objectFit: "cover",
           borderRadius: 20,
         }}
@@ -35,7 +23,7 @@ function PopularCard({
           marginVertical: 8,
         }}
       >
-        {destination.title}
+        {trip.title}
       </Text>
       <Text
         style={{
@@ -43,11 +31,25 @@ function PopularCard({
           fontSize: 12,
         }}
       >
-        {destination.country}
+        {trip.fasility}
       </Text>
+      <View
+        style={{
+          position: "absolute",
+          top: 12,
+          left: 12,
+          backgroundColor: Colors.white,
+          borderRadius: 8,
+          padding: 8,
+        }}
+      >
+        <Text style={{ fontFamily: "Figtree_700Bold", fontSize: 12 }}>
+          D-122
+        </Text>
+      </View>
       <IconButton
-        icon="bookmark"
-        iconColor={Colors.primary}
+        icon="share-outline"
+        iconColor={Colors.black}
         size={20}
         style={{
           position: "absolute",
@@ -62,4 +64,4 @@ function PopularCard({
   );
 }
 
-export default PopularCard;
+export default MyTripCard;

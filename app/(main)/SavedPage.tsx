@@ -1,7 +1,7 @@
 import EmptyContent from "@/components/EmptyContent";
-import PopularCard from "@/components/PopularCard";
+import DestinationCard from "@/components/DestinationCard";
 import Colors from "@/constants/Colors";
-import { StyleSheet, View, Text, FlatList } from "react-native";
+import { FlatList } from "react-native";
 import { Appbar } from "react-native-paper";
 
 export default function SavedPage() {
@@ -38,7 +38,7 @@ export default function SavedPage() {
           },
         ]}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <PopularCard detail destination={item} />}
+        renderItem={({ item }) => <DestinationCard detail destination={item} />}
       ></FlatList>
     </>
   );
