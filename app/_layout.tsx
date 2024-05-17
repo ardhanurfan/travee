@@ -60,6 +60,22 @@ function RootLayoutNav() {
         name="PopularDestinationPage"
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="PersonalizingFirstPage"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="PersonalizingSecondPage"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="PersonalizingThirdPage"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="PersonalizingFinishedPage"
+        options={{ headerShown: false }}
+      />
     </Stack>
   );
 }

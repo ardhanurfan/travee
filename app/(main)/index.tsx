@@ -93,7 +93,7 @@ export default function HomePage() {
             <Text style={{ fontFamily: "Figtree_700Bold", fontSize: 20 }}>
               Popular Destinations
             </Text>
-            <Pressable onPress={() => router.push("/PopularDestinationPage")}>
+            <Pressable onPress={() => router.push("/PersonalizingFirstPage")}>
               <View
                 style={{ flexDirection: "row", alignItems: "center", gap: 4 }}
               >
