@@ -76,6 +76,16 @@ function RootLayoutNav() {
         name="PersonalizingFinishedPage"
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="DestinationDetailPage"
+        options={{ headerShown: false }}
+      />
+
+      {/* Start Trip */}
+      <Stack.Screen
+        name="(startTrip)/FirstPage"
+        options={{ headerShown: false }}
+      />
     </Stack>
   );
 }

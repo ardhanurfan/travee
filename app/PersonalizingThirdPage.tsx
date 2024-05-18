@@ -102,7 +102,13 @@ function PersonalizingThirdPage() {
                   color="#DADADA"
                 ></Icon>
               )}
-              <View style={{ position: "absolute", bottom: image ? 0 : 8, right: 12 }}>
+              <View
+                style={{
+                  position: "absolute",
+                  bottom: image ? 0 : 8,
+                  right: 12,
+                }}
+              >
                 <Icon
                   source="pencil-circle"
                   size={32}
