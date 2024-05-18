@@ -51,7 +51,7 @@ function PersonalizingFinishedPage() {
           }}
         >
           <Image
-            source={require("../assets/images/logo.png")}
+            source={require("../../assets/images/logo.png")}
             style={{ width: 200, height: 200 }}
           />
           <Text
@@ -72,10 +72,11 @@ function PersonalizingFinishedPage() {
               marginTop: 20,
             }}
           >
-            Congratulations! You’re now part of the Travee community, Your
+            Congratulations! You're now part of the Travee community, Your
             personalized travel experiences await!
           </Text>
         </View>
+
         <View
           style={{
             paddingVertical: 16,

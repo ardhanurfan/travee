@@ -61,23 +61,25 @@ function RootLayoutNav() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="PersonalizingFirstPage"
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="PersonalizingSecondPage"
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="PersonalizingThirdPage"
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="PersonalizingFinishedPage"
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
         name="DestinationDetailPage"
+        options={{ headerShown: false }}
+      />
+
+      {/* Personalize*/}
+      <Stack.Screen
+        name="(personalize)/FirstPage"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="(personalize)/SecondPage"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="(personalize)/ThirdPage"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="(personalize)/FinishedPage"
         options={{ headerShown: false }}
       />
 

@@ -1,3 +1,4 @@
+import UnderButton from "@/components/UnderButton";
 import Colors from "@/constants/Colors";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
@@ -82,35 +83,11 @@ function DestinationDetailPage() {
           </Text>
         </View>
       </ScrollView>
-      <View
-        style={{
-          paddingVertical: 16,
-          paddingHorizontal: 20,
-          borderTopColor: Colors.lightGray,
-          borderTopWidth: 1,
-          width: "100%",
-        }}
-      >
-        <Button
-          mode="contained"
-          style={{
-            backgroundColor: Colors.primary,
-            borderRadius: 28,
-            paddingVertical: 6,
-          }}
-          onPress={() => router.push("/(startTrip)/FirstPage")}
-        >
-          <Text
-            style={{
-              fontFamily: "Figtree_600SemiBold",
-              color: Colors.white,
-              fontSize: 16,
-            }}
-          >
-            Start a Trip
-          </Text>
-        </Button>
-      </View>
+
+      <UnderButton
+        text="Start a Trip"
+        onPress={() => router.push("/(startTrip)/FirstPage")}
+      />
     </SafeAreaView>
   );
 }

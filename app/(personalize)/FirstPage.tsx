@@ -1,19 +1,16 @@
 import React from "react";
 import { View, Text, ScrollView } from "react-native";
 import { Appbar } from "react-native-paper";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 import { useRouter } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Colors from "@/constants/Colors";
 import UnderButton from "@/components/UnderButton";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 function FirstPage() {
   const router = useRouter();
 
   return (
-    <SafeAreaView
-      edges={["bottom"]}
-      style={{ flex: 1, backgroundColor: Colors.white }}
-    >
+    <>
       <Appbar.Header style={{ backgroundColor: Colors.white }}>
         <Appbar.BackAction onPress={() => router.back()}></Appbar.BackAction>
         <View
@@ -41,37 +38,44 @@ function FirstPage() {
         <Appbar.BackAction style={{ display: "none" }}></Appbar.BackAction>
       </Appbar.Header>
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{ paddingHorizontal: 20 }}
+      <SafeAreaView
+        edges={["bottom"]}
+        style={{
+          flex: 1,
+          backgroundColor: Colors.white,
+        }}
       >
-        <Text
-          style={{
-            fontFamily: "Figtree_700Bold",
-            fontSize: 28,
-            marginTop: 20,
-          }}
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ paddingHorizontal: 20 }}
         >
-          Who is going? 🙋🏼‍♀️
-        </Text>
-        <Text
-          style={{
-            fontFamily: "Figtree_400Regular",
-            fontSize: 16,
-            marginVertical: 20,
-            color: "#848484",
-            textAlign: "justify",
-          }}
-        >
-          Let's get started by selecting who you're traveling with
-        </Text>
-      </ScrollView>
+          <Text
+            style={{
+              fontFamily: "Figtree_700Bold",
+              fontSize: 28,
+            }}
+          >
+            Verify you're human 🤖
+          </Text>
+          <Text
+            style={{
+              fontFamily: "Figtree_400Regular",
+              fontSize: 16,
+              marginTop: 20,
+              color: "#848484",
+              textAlign: "justify",
+            }}
+          >
+            Please solve this captcha so we know you are a person
+          </Text>
+        </ScrollView>
 
-      <UnderButton
-        text="Start a Trip"
-        onPress={() => router.push("/(startTrip)/FirstPage")}
-      />
-    </SafeAreaView>
+        <UnderButton
+          onPress={() => router.push("/(personalize)/SecondPage")}
+          text="Continue"
+        />
+      </SafeAreaView>
+    </>
   );
 }
 
