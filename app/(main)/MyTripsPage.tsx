@@ -4,7 +4,7 @@ import Colors from "@/constants/Colors";
 import { MyTripsTypes } from "@/constants/Types";
 import { useState } from "react";
 import { FlatList, View } from "react-native";
-import { Appbar, Button } from "react-native-paper";
+import { Appbar, Button, Text } from "react-native-paper";
 
 export default function MyTripsPage() {
   const [tripsState, setTripsState] = useState<MyTripsTypes>(
@@ -43,9 +43,6 @@ export default function MyTripsPage() {
           <Button
             mode="contained"
             onPress={() => setTripsState(MyTripsTypes.Upcoming)}
-            textColor={
-              tripsState == MyTripsTypes.Upcoming ? Colors.white : Colors.black
-            }
             style={{
               flex: 1,
               borderRadius: 8,
@@ -55,14 +52,22 @@ export default function MyTripsPage() {
                   : Colors.lightGray,
             }}
           >
-            Upcoming
+            <Text
+              style={{
+                fontFamily: "Figtree_400Regular",
+                fontSize: 12,
+                color:
+                  tripsState == MyTripsTypes.Upcoming
+                    ? Colors.white
+                    : Colors.black,
+              }}
+            >
+              Upcoming
+            </Text>
           </Button>
           <Button
             mode="contained"
             onPress={() => setTripsState(MyTripsTypes.Active)}
-            textColor={
-              tripsState == MyTripsTypes.Active ? Colors.white : Colors.black
-            }
             style={{
               flex: 1,
               borderRadius: 8,
@@ -72,14 +77,22 @@ export default function MyTripsPage() {
                   : Colors.lightGray,
             }}
           >
-            Active
+            <Text
+              style={{
+                fontFamily: "Figtree_400Regular",
+                fontSize: 12,
+                color:
+                  tripsState == MyTripsTypes.Active
+                    ? Colors.white
+                    : Colors.black,
+              }}
+            >
+              Active
+            </Text>
           </Button>
           <Button
             mode="contained"
             onPress={() => setTripsState(MyTripsTypes.Passed)}
-            textColor={
-              tripsState == MyTripsTypes.Passed ? Colors.white : Colors.black
-            }
             style={{
               flex: 1,
               borderRadius: 8,
@@ -89,7 +102,18 @@ export default function MyTripsPage() {
                   : Colors.lightGray,
             }}
           >
-            Passed
+            <Text
+              style={{
+                fontFamily: "Figtree_400Regular",
+                fontSize: 12,
+                color:
+                  tripsState == MyTripsTypes.Passed
+                    ? Colors.white
+                    : Colors.black,
+              }}
+            >
+              Passed
+            </Text>
           </Button>
         </View>
       </View>

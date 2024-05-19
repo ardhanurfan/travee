@@ -16,7 +16,9 @@ function DestinationCard({
 
   return (
     <Pressable
-      onPress={() => router.push(`/DestinationDetailPage?destinationId=1`)}
+      onPress={() =>
+        router.push(`/DestinationDetailPage?destinationId=${destination.id}`)
+      }
     >
       <View
         style={{

@@ -15,38 +15,39 @@ function DestinationDetailPage() {
       edges={["top", "bottom"]}
       style={{ flex: 1, backgroundColor: Colors.white }}
     >
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View
+      <View
+        style={{
+          padding: 20,
+          position: "absolute",
+          zIndex: 1,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          width: "100%",
+          top: 40,
+        }}
+      >
+        <IconButton
+          icon="arrow-left"
+          iconColor={Colors.black}
+          size={24}
           style={{
-            padding: 20,
-            position: "absolute",
-            zIndex: 1,
-            flexDirection: "row",
-            justifyContent: "space-between",
-            width: "100%",
+            backgroundColor: Colors.white,
+            borderRadius: 999,
           }}
-        >
-          <IconButton
-            icon="arrow-left"
-            iconColor={Colors.black}
-            size={24}
-            style={{
-              backgroundColor: Colors.white,
-              borderRadius: 999,
-            }}
-            onPress={() => router.back()}
-          />
-          <IconButton
-            icon="bookmark"
-            iconColor={Colors.primary}
-            size={24}
-            style={{
-              backgroundColor: Colors.white,
-              borderRadius: 999,
-            }}
-            onPress={() => console.log("Pressed")}
-          />
-        </View>
+          onPress={() => router.back()}
+        />
+        <IconButton
+          icon="bookmark"
+          iconColor={Colors.primary}
+          size={24}
+          style={{
+            backgroundColor: Colors.white,
+            borderRadius: 999,
+          }}
+          onPress={() => console.log("Pressed")}
+        />
+      </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Image
           source={require("../assets/destination.png")}
           style={{

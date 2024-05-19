@@ -64,6 +64,7 @@ function RootLayoutNav() {
         name="DestinationDetailPage"
         options={{ headerShown: false }}
       />
+      <Stack.Screen name="TripDetailPage" options={{ headerShown: false }} />
 
       {/* Personalize*/}
       <Stack.Screen
