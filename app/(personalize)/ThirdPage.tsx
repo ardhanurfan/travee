@@ -2,17 +2,19 @@ import Colors from "@/constants/Colors";
 import { useRouter } from "expo-router";
 import {
   Dimensions,
-  SafeAreaView,
   View,
   Text,
   TouchableOpacity,
   Image,
+  ScrollView,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { Appbar, Button, Icon, TextInput } from "react-native-paper";
+import { Appbar, Icon, TextInput } from "react-native-paper";
 import { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import UnderButton from "@/components/UnderButton";
 
-function PersonalizingThirdPage() {
+function ThirdPage() {
   const [image, setImage] = useState<any | null>(null);
   const router = useRouter();
   let ScreenHeight = Dimensions.get("window").height;
@@ -28,7 +30,7 @@ function PersonalizingThirdPage() {
     }
   };
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.white }}>
+    <>
       <Appbar.Header style={{ backgroundColor: Colors.white }}>
         <Appbar.BackAction onPress={() => router.back()}></Appbar.BackAction>
         <View
@@ -53,25 +55,23 @@ function PersonalizingThirdPage() {
             ></View>
           </View>
         </View>
-        <Appbar.BackAction
-          //   onPress={() => router.push("/PersonalizingSecondPage")}
-          style={{ opacity: 0 }}
-        ></Appbar.BackAction>
+        <Appbar.BackAction style={{ display: "none" }}></Appbar.BackAction>
       </Appbar.Header>
-      <View
-        style={{
-          backgroundColor: Colors.white,
-          height: ScreenHeight,
-          flex: 1,
-          justifyContent: "space-between",
-        }}
+
+      <SafeAreaView
+        edges={["bottom"]}
+        style={{ flex: 1, backgroundColor: Colors.white }}
       >
-        <View style={{ paddingHorizontal: 20 }}>
+        <ScrollView
+          style={{
+            flex: 1,
+            paddingHorizontal: 20,
+          }}
+        >
           <Text
             style={{
               fontFamily: "Figtree_700Bold",
               fontSize: 28,
-              marginTop: 20,
             }}
           >
             Add a personal touch 👤
@@ -85,7 +85,7 @@ function PersonalizingThirdPage() {
               textAlign: "justify",
             }}
           >
-            To enhance your travel journey, we’d love to know more about you.
+            To enhance your travel journey, we'd love to know more about you.
           </Text>
 
           <View style={{ alignItems: "center" }}>
@@ -131,7 +131,7 @@ function PersonalizingThirdPage() {
             mode="flat"
             placeholder="Full Name"
             underlineStyle={{ display: "none" }}
-            //   left={<TextInput.Icon icon="magnify" color={Colors.gray} />}
+            left={<TextInput.Icon icon="account" color={Colors.gray} />}
             cursorColor={Colors.primary}
             placeholderTextColor={Colors.gray}
             style={{
@@ -198,44 +198,15 @@ function PersonalizingThirdPage() {
               width: "100%",
             }}
           />
-        </View>
-        <View
-          style={{
-            paddingVertical: 16,
-            paddingHorizontal: 20,
-            borderTopColor: "#848484",
-            // borderTopWidth: 0.5,
-            width: "100%",
-          }}
-        >
-          <Button
-            mode="contained"
-            onPress={() => router.push("/PersonalizingFinishedPage")}
-            style={{
-              backgroundColor: "#5850FE",
-              borderRadius: 28,
-              // width: "100%",
-              // height: "auto",
-              paddingVertical: 6,
-              // flex: 1,
-              // justifyContent: "center",
-              // alignItems: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: "Figtree_600SemiBold",
-                color: Colors.white,
-                fontSize: 16,
-              }}
-            >
-              Continue
-            </Text>
-          </Button>
-        </View>
-      </View>
-    </SafeAreaView>
+        </ScrollView>
+
+        <UnderButton
+          onPress={() => router.push("/(personalize)/FinishedPage")}
+          text="Continue"
+        />
+      </SafeAreaView>
+    </>
   );
 }
 
-export default PersonalizingThirdPage;
+export default ThirdPage;
