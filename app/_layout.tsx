@@ -57,6 +57,8 @@ function RootLayoutNav() {
   return (
     <>
       <Stack>
+        <Stack.Screen name="(auth)/index" options={{ headerShown: false }} />
+
         <Stack.Screen name="(main)" options={{ headerShown: false }} />
         <Stack.Screen
           name="PopularDestinationPage"

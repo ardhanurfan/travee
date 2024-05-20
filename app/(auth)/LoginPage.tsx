@@ -24,12 +24,12 @@ const LoginPage = () => {
   async function login() {
     setLoading(true);
     try {
-      const result = await LoginServices({ email, password });
-      router.navigate("/");
+      await LoginServices({ email, password });
+      router.navigate("/(main)/HomePage");
       Toast.show({
         type: "success",
         text1: "Login Successful",
-        text2: `Welcome back, ${result.user.email}!`,
+        text2: `Welcome back to Travee!`,
       });
     } catch (error) {
       Toast.show({
@@ -155,7 +155,7 @@ const LoginPage = () => {
               borderTopLeftRadius: 12,
               borderBottomLeftRadius: 12,
               borderBottomRightRadius: 12,
-              marginTop: 10,
+              marginVertical: 10,
               width: "100%",
             }}
           />

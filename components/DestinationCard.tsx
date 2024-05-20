@@ -19,7 +19,9 @@ function DestinationCard({
       onPress={() =>
         router.push({
           pathname: "/DestinationDetailPage",
-          params: { id: destination.id, name: destination.title },
+          params: {
+            id: destination.id,
+          },
         })
       }
     >
@@ -31,7 +33,7 @@ function DestinationCard({
         }}
       >
         <Image
-          source={require("../assets/destination.png")}
+          source={{ uri: destination.photo_url }}
           style={{
             width: detail ? "100%" : 250,
             height: detail ? 200 : 160,
@@ -46,7 +48,7 @@ function DestinationCard({
             marginVertical: 8,
           }}
         >
-          {destination.title}
+          {destination.name}
         </Text>
         <Text
           style={{

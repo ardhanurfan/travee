@@ -1,5 +1,6 @@
 import UnderButton from "@/components/UnderButton";
 import Colors from "@/constants/Colors";
+import { GetDestinationById } from "@/services/DestinationService";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 import { ScrollView, Image, View } from "react-native";
@@ -8,7 +9,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 function DestinationDetailPage() {
   const router = useRouter();
-  const { destinationId } = useLocalSearchParams();
+  const { id } = useLocalSearchParams();
+  const { destination } = GetDestinationById(id as string);
 
   return (
     <SafeAreaView
@@ -49,7 +51,7 @@ function DestinationDetailPage() {
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Image
-          source={require("../assets/destination.png")}
+          source={{ uri: destination?.photo_url }}
           style={{
             width: "100%",
             height: 300,
@@ -58,7 +60,7 @@ function DestinationDetailPage() {
         />
         <View style={{ padding: 20 }}>
           <Text style={{ fontFamily: "Figtree_400Regular", fontSize: 16 }}>
-            Indonesia
+            {destination?.country}
           </Text>
           <Text
             style={{
@@ -67,7 +69,7 @@ function DestinationDetailPage() {
               marginBottom: 12,
             }}
           >
-            Jogjakarta, Daerah Istimewa Yogyakarta
+            {destination?.name}
           </Text>
           <Text
             style={{

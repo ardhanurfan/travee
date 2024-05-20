@@ -2,6 +2,7 @@ import DestinationCard from "@/components/DestinationCard";
 import MyTripCard from "@/components/MyTripCard";
 import { auth } from "@/config/firebase";
 import Colors from "@/constants/Colors";
+import { GetDestinations } from "@/services/DestinationService";
 import { useRouter } from "expo-router";
 import {
   View,
@@ -10,12 +11,19 @@ import {
   ScrollView,
   FlatList,
   Pressable,
+  TouchableOpacity,
 } from "react-native";
 import { Avatar, Icon, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomePage() {
   const router = useRouter();
+  const { destinations } = GetDestinations();
+
+  const logout = async () => {
+    await auth.signOut();
+    router.replace("/(onboarding)/FirstPage");
+  };
 
   return (
     <SafeAreaView
@@ -39,11 +47,13 @@ export default function HomePage() {
         </Text>
 
         <View style={{ position: "relative" }}>
-          <Avatar.Image
-            size={60}
-            source={require("../../assets/profile.png")}
-            style={{ backgroundColor: Colors.primary }}
-          />
+          <TouchableOpacity onPress={logout}>
+            <Avatar.Image
+              size={60}
+              source={require("../../assets/profile.png")}
+              style={{ backgroundColor: Colors.primary }}
+            />
+          </TouchableOpacity>
           <View
             style={{
               position: "absolute",
@@ -111,20 +121,7 @@ export default function HomePage() {
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
-          data={[
-            {
-              id: 1,
-              title: "Jogjakarta, Central Java",
-              country: "Indonesia",
-              image: "../../assets/destination.png",
-            },
-            {
-              id: 2,
-              title: "Jogjakarta, Central Java",
-              country: "Indonesia",
-              image: "../../assets/destination.png",
-            },
-          ]}
+          data={destinations}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => <DestinationCard destination={item} />}
         ></FlatList>

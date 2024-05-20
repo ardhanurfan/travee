@@ -53,7 +53,7 @@ function FinishedPage() {
         </View>
 
         <UnderButton
-          onPress={() => router.navigate("/")}
+          onPress={() => router.navigate("/(main)/HomePage")}
           text="Explore Destinations"
         />
       </SafeAreaView>

@@ -1,10 +1,3 @@
-export interface Destination {
-  id: number;
-  image: string;
-  title: string;
-  country: string;
-}
-
 export interface Trip {
   id: number;
   image: string;
@@ -18,8 +11,15 @@ export const enum MyTripsTypes {
   Passed = "Passed",
 }
 
-// export interface User {
-//   email : string;
-//   photoUrl : string;
-//    : string;
-// }
+export interface Destination {
+  country: string;
+  id: string;
+  name: string;
+  photo_url: string;
+}
+
+export interface Event {
+  id: string;
+  name: string;
+  type: string;
+}

@@ -1,14 +1,14 @@
 import PopularCard from "@/components/DestinationCard";
 import Colors from "@/constants/Colors";
-import { useRoute } from "@react-navigation/native";
+import { GetDestinations } from "@/services/DestinationService";
 import { useRouter } from "expo-router";
 import React from "react";
-import { FlatList, ScrollView } from "react-native";
+import { FlatList } from "react-native";
 import { Appbar } from "react-native-paper";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 function PopularDestinationPage() {
   const router = useRouter();
+  const { destinations } = GetDestinations();
 
   return (
     <>
@@ -23,20 +23,7 @@ function PopularDestinationPage() {
       <FlatList
         style={{ backgroundColor: Colors.white, paddingHorizontal: 20 }}
         showsVerticalScrollIndicator={false}
-        data={[
-          {
-            id: 1,
-            title: "Jogjakarta, Central Java",
-            country: "Indonesia",
-            image: "../../assets/destination.png",
-          },
-          {
-            id: 2,
-            title: "Jogjakarta, Central Java",
-            country: "Indonesia",
-            image: "../../assets/destination.png",
-          },
-        ]}
+        data={destinations}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <PopularCard detail destination={item} />}
       ></FlatList>

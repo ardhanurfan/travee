@@ -1,5 +1,5 @@
-import React from "react";
-import { Tabs } from "expo-router";
+import React, { useEffect } from "react";
+import { Tabs, router } from "expo-router";
 
 import Colors from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
@@ -12,7 +12,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="HomePage"
         options={{
           headerShown: false,
           title: "Home",

@@ -206,7 +206,7 @@ const RegisterPage = () => {
               borderTopLeftRadius: 12,
               borderBottomLeftRadius: 12,
               borderBottomRightRadius: 12,
-              marginTop: 10,
+              marginVertical: 10,
               width: "100%",
             }}
           />
