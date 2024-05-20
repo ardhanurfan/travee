@@ -3,7 +3,6 @@ import { Tabs } from "expo-router";
 
 import Colors from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
-import { View } from "react-native";
 
 export default function TabLayout() {
   return (

@@ -6,9 +6,11 @@ import { Button, Text } from "react-native-paper";
 function UnderButton({
   onPress,
   text,
+  loading,
 }: {
   onPress?: ((e: GestureResponderEvent) => void) | undefined;
   text: string;
+  loading?: boolean;
 }) {
   return (
     <View
@@ -22,6 +24,7 @@ function UnderButton({
     >
       <Button
         mode="contained"
+        loading={loading}
         style={{
           backgroundColor: Colors.primary,
           borderRadius: 28,

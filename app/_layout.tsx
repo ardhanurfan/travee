@@ -10,6 +10,7 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import Toast from "react-native-toast-message";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -54,41 +55,68 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <Stack>
-      <Stack.Screen name="(main)" options={{ headerShown: false }} />
-      <Stack.Screen
-        name="PopularDestinationPage"
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="DestinationDetailPage"
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen name="TripDetailPage" options={{ headerShown: false }} />
+    <>
+      <Stack>
+        <Stack.Screen name="(main)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="PopularDestinationPage"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="DestinationDetailPage"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="TripDetailPage" options={{ headerShown: false }} />
 
-      {/* Personalize*/}
-      <Stack.Screen
-        name="(personalize)/FirstPage"
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="(personalize)/SecondPage"
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="(personalize)/ThirdPage"
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="(personalize)/FinishedPage"
-        options={{ headerShown: false }}
-      />
+        {/* Onboarding */}
+        <Stack.Screen
+          name="(onboarding)/FirstPage"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="(onboarding)/SecondPage"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="(onboarding)/ThirdPage"
+          options={{ headerShown: false }}
+        />
 
-      {/* Start Trip */}
-      <Stack.Screen
-        name="(startTrip)/FirstPage"
-        options={{ headerShown: false }}
-      />
-    </Stack>
+        {/* Auth */}
+        <Stack.Screen
+          name="(auth)/LoginPage"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="(auth)/RegisterPage"
+          options={{ headerShown: false }}
+        />
+
+        {/* Personalize*/}
+        <Stack.Screen
+          name="(personalize)/FirstPage"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="(personalize)/SecondPage"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="(personalize)/ThirdPage"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="(personalize)/FinishedPage"
+          options={{ headerShown: false }}
+        />
+
+        {/* Start Trip */}
+        <Stack.Screen
+          name="(startTrip)/FirstPage"
+          options={{ headerShown: false }}
+        />
+      </Stack>
+      <Toast />
+    </>
   );
 }

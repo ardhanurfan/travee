@@ -17,3 +17,9 @@ export const enum MyTripsTypes {
   Active = "Active",
   Passed = "Passed",
 }
+
+// export interface User {
+//   email : string;
+//   photoUrl : string;
+//    : string;
+// }

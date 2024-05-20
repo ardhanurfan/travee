@@ -1,5 +1,6 @@
 import DestinationCard from "@/components/DestinationCard";
 import MyTripCard from "@/components/MyTripCard";
+import { auth } from "@/config/firebase";
 import Colors from "@/constants/Colors";
 import { useRouter } from "expo-router";
 import {
@@ -93,7 +94,7 @@ export default function HomePage() {
             <Text style={{ fontFamily: "Figtree_700Bold", fontSize: 20 }}>
               Popular Destinations
             </Text>
-            <Pressable onPress={() => router.push("/(personalize)/FirstPage")}>
+            <Pressable onPress={() => router.push("/PopularDestinationPage")}>
               <View
                 style={{ flexDirection: "row", alignItems: "center", gap: 4 }}
               >
