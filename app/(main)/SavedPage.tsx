@@ -31,13 +31,7 @@ export default function SavedPage() {
           data={savedDestinations}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <DestinationCard
-              detail
-              destination={item}
-              isBookmarked={
-                savedDestinations.find((d) => d.id === item.id) ? true : false
-              }
-            />
+            <DestinationCard detail destination={item} />
           )}
         ></FlatList>
       )}

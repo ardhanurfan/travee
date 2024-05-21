@@ -1,5 +1,6 @@
 import PopularCard from "@/components/DestinationCard";
 import Colors from "@/constants/Colors";
+import { GetSaved } from "@/services/BookmarkService";
 import { GetDestinations } from "@/services/DestinationService";
 import { useRouter } from "expo-router";
 import React from "react";

@@ -1,8 +1,11 @@
 import Colors from "@/constants/Colors";
 import { Destination } from "@/constants/Types";
-import { toggleBookmarkDestination } from "@/services/BookmarkService";
+import {
+  GetSaved,
+  toggleBookmarkDestination,
+} from "@/services/BookmarkService";
 import { router } from "expo-router";
-import React from "react";
+import React, { useMemo } from "react";
 import { View, Image, Text, Pressable } from "react-native";
 import { IconButton } from "react-native-paper";
 import Toast from "react-native-toast-message";
@@ -10,12 +13,16 @@ import Toast from "react-native-toast-message";
 function DestinationCard({
   detail = false,
   destination,
-  isBookmarked,
 }: {
   detail?: boolean;
   destination: Destination;
-  isBookmarked: boolean;
 }) {
+  const { savedDestinations } = GetSaved();
+
+  const isBookmarked = savedDestinations.find((d) => d.id === destination.id)
+    ? true
+    : false;
+
   const handleBookmark = async () => {
     try {
       await toggleBookmarkDestination(destination);
