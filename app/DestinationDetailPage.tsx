@@ -45,7 +45,7 @@ function DestinationDetailPage() {
 
   return (
     <SafeAreaView
-      edges={["top", "bottom"]}
+      edges={["bottom"]}
       style={{ flex: 1, backgroundColor: Colors.white }}
     >
       <View
@@ -128,7 +128,7 @@ function DestinationDetailPage() {
 
       <UnderButton
         text="Start a Trip"
-        onPress={() => router.push("/(startTrip)/FirstPage")}
+        onPress={() => router.push("/(personalizeTrip)/FirstPage")}
       />
     </SafeAreaView>
   );
