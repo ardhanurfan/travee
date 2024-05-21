@@ -118,7 +118,39 @@ function RootLayoutNav() {
           name="(startTrip)/FirstPage"
           options={{ headerShown: false }}
         />
-      </Stack>
+  
+      {/* PersonalizeTrip */}
+      <Stack.Screen
+        name="(personalizeTrip)/FirstPage"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="(personalizeTrip)/SecondPage"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="(personalizeTrip)/ThirdPage"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="(personalizeTrip)/FourthPage"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="(personalizeTrip)/SummaryPage"
+        options={{ headerShown: false }}
+      />
+
+      {/* Person */}
+      <Stack.Screen
+        name="(person)/ListPage"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="(person)/AddPage"
+        options={{ headerShown: false }}
+      />
+    </Stack>
       <Toast />
     </PreferencesProvider>
   );

@@ -28,7 +28,7 @@ function TripDetailPage() {
 
   return (
     <SafeAreaView
-      edges={["top", "bottom"]}
+      edges={["bottom"]}
       style={{ flex: 1, backgroundColor: Colors.white }}
     >
       {/* Header */}

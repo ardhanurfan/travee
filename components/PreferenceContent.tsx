@@ -16,7 +16,7 @@ function PreferenceContent({
         borderColor: isSelected ? Colors.primary : Colors.gray,
         borderRadius: 24,
         paddingHorizontal: 20,
-        paddingVertical: 12,
+        paddingVertical: 10   ,
         width: "auto",
         // margin: 4
       }}
