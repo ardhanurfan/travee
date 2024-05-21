@@ -1,3 +1,11 @@
+export interface User {
+  email: string;
+  fullname: string;
+  phone_number: string;
+  photo_url: string | null;
+  preferences: string[];
+}
+
 export interface Trip {
   id: number;
   image: string;

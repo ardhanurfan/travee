@@ -1,3 +1,4 @@
+import PreferencesProvider from "@/context/PreferencesContext";
 import {
   Figtree_300Light,
   Figtree_400Regular,
@@ -55,7 +56,7 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <>
+    <PreferencesProvider>
       <Stack>
         <Stack.Screen name="(auth)/index" options={{ headerShown: false }} />
 
@@ -119,6 +120,6 @@ function RootLayoutNav() {
         />
       </Stack>
       <Toast />
-    </>
+    </PreferencesProvider>
   );
 }

@@ -1,19 +1,50 @@
 import PreferenceContent from "@/components/PreferenceContent";
 import UnderButton from "@/components/UnderButton";
+import { usePreferences } from "@/context/PreferencesContext";
 import { useRouter } from "expo-router";
-import { Dimensions, View, Text, ScrollView } from "react-native";
+import {
+  Dimensions,
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { Appbar } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
 function SecondPage() {
   const router = useRouter();
-  let ScreenHeight = Dimensions.get("window").height;
+  const { preferences, setPreferences } = usePreferences();
+
+  const preferencesData = [
+    "Adventure Travel 🔍",
+    "City Breaks 🌇",
+    "Glampings 🏕️",
+    "Cultural Exploration 👹",
+    "Nature Escapes 🌱",
+    "Beach 🏖️",
+    "Road Trips 🚘",
+    "Relaxing Gateway 🧘🏻‍♀️",
+    "Culinary Nights 🍜",
+    "Backpacking 🎒",
+    "Staycation 🏠",
+    "Formal Event 📃",
+    "Nights Party 🪩",
+    "Unique Activities ✍🏻",
+    "Wildlife Safaris 🦁",
+    "Art Galeries 🖼️",
+    "Historical States 🗿",
+    "Eco-Tourism ♻️",
+  ];
 
   return (
     <>
       <Appbar.Header style={{ backgroundColor: Colors.white }}>
-        <Appbar.BackAction onPress={() => router.back()}></Appbar.BackAction>
+        <Appbar.BackAction
+          onPress={() => router.replace("/(personalize)/FirstPage")}
+        ></Appbar.BackAction>
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
@@ -77,29 +108,38 @@ function SecondPage() {
               flexWrap: "wrap",
             }}
           >
-            <PreferenceContent text="Adventure Travel 🔍" />
-            <PreferenceContent text="City Breaks 🌇" />
-            <PreferenceContent text="Glampings 🏕️" />
-            <PreferenceContent text="Cultural Exploration 👹" />
-            <PreferenceContent text="Nature Escapes 🌱" />
-            <PreferenceContent text="Beach 🏖️" />
-            <PreferenceContent text="Road Trips 🚘" />
-            <PreferenceContent text="Relaxing Gateway 🧘🏻‍♀️" />
-            <PreferenceContent text="Culinary Nights 🍜" />
-            <PreferenceContent text="Backpacking 🎒" />
-            <PreferenceContent text="Staycation 🏠" />
-            <PreferenceContent text="Formal Event 📃" />
-            <PreferenceContent text="Nights Party 🪩" />
-            <PreferenceContent text="Unique Activities ✍🏻" />
-            <PreferenceContent text="Wildlife Safaris 🦁" />
-            <PreferenceContent text="Art Galeries 🖼️" />
-            <PreferenceContent text="Historical States 🗿" />
-            <PreferenceContent text="Eco-Tourism ♻️" />
+            {preferencesData.map((preference, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() =>
+                  preferences.includes(preference)
+                    ? setPreferences(
+                        preferences.filter((p) => p !== preference)
+                      )
+                    : setPreferences([...preferences, preference])
+                }
+              >
+                <PreferenceContent
+                  text={preference}
+                  isSelected={preferences.includes(preference)}
+                />
+              </TouchableOpacity>
+            ))}
           </View>
         </ScrollView>
 
         <UnderButton
-          onPress={() => router.push("/(personalize)/ThirdPage")}
+          onPress={() => {
+            if (preferences.length === 0) {
+              Toast.show({
+                type: "error",
+                text1: "Please select preference",
+                text2: "Please select at least one preference",
+              });
+            } else {
+              router.replace("/(personalize)/ThirdPage");
+            }
+          }}
           text="Continue"
         />
       </SafeAreaView>

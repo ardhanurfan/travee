@@ -2,6 +2,7 @@ import DestinationCard from "@/components/DestinationCard";
 import MyTripCard from "@/components/MyTripCard";
 import { auth } from "@/config/firebase";
 import Colors from "@/constants/Colors";
+import { GetUserData } from "@/services/AuthService";
 import { GetDestinations } from "@/services/DestinationService";
 import { useRouter } from "expo-router";
 import {
@@ -19,6 +20,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function HomePage() {
   const router = useRouter();
   const { destinations } = GetDestinations();
+  const { user } = GetUserData();
 
   const logout = async () => {
     await auth.signOut();
@@ -50,7 +52,13 @@ export default function HomePage() {
           <TouchableOpacity onPress={logout}>
             <Avatar.Image
               size={60}
-              source={require("../../assets/profile.png")}
+              source={
+                user?.photo_url
+                  ? { uri: user?.photo_url }
+                  : {
+                      uri: `https://ui-avatars.com/api/?name=${user?.fullname}+&color=7F9CF5&background=EBF4FF`,
+                    }
+              }
               style={{ backgroundColor: Colors.primary }}
             />
           </TouchableOpacity>

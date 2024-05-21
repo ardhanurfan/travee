@@ -12,7 +12,6 @@ function FirstPage() {
   return (
     <>
       <Appbar.Header style={{ backgroundColor: Colors.white }}>
-        <Appbar.BackAction onPress={() => router.back()}></Appbar.BackAction>
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
@@ -35,7 +34,6 @@ function FirstPage() {
             ></View>
           </View>
         </View>
-        <Appbar.BackAction style={{ display: "none" }}></Appbar.BackAction>
       </Appbar.Header>
 
       <SafeAreaView
@@ -71,7 +69,7 @@ function FirstPage() {
         </ScrollView>
 
         <UnderButton
-          onPress={() => router.push("/(personalize)/SecondPage")}
+          onPress={() => router.replace("/(personalize)/SecondPage")}
           text="Continue"
         />
       </SafeAreaView>

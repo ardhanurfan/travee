@@ -8,14 +8,13 @@ import {
 } from "react-native";
 import { Text, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { router } from "expo-router";
 import UnderButton from "@/components/UnderButton";
 import Colors from "@/constants/Colors";
 import { LoginServices } from "@/services/AuthService";
 import Toast from "react-native-toast-message";
 
 const LoginPage = () => {
-  const router = useRouter();
   const [isObscure, setObscure] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
   const [email, setEmail] = React.useState("");
@@ -25,7 +24,7 @@ const LoginPage = () => {
     setLoading(true);
     try {
       await LoginServices({ email, password });
-      router.navigate("/(main)/HomePage");
+      router.replace("/(main)/HomePage");
       Toast.show({
         type: "success",
         text1: "Login Successful",

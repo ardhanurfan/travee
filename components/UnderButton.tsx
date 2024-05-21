@@ -15,7 +15,7 @@ function UnderButton({
   return (
     <View
       style={{
-        paddingVertical: 16,
+        paddingTop: 16,
         paddingHorizontal: 20,
         borderTopColor: Colors.lightGray,
         borderTopWidth: 1,

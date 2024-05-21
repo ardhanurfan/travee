@@ -112,7 +112,7 @@ function ThirdPage() {
             </View>
           </View>
           <UnderButton
-            onPress={() => router.push("/(auth)/LoginPage")}
+            onPress={() => router.replace("/(auth)/LoginPage")}
             text="Continue"
           />
         </View>

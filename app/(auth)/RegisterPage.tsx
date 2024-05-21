@@ -8,14 +8,13 @@ import {
 } from "react-native";
 import { Text, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { router } from "expo-router";
 import UnderButton from "@/components/UnderButton";
 import Colors from "@/constants/Colors";
 import { RegisterServices } from "@/services/AuthService";
 import Toast from "react-native-toast-message";
 
 const RegisterPage = () => {
-  const router = useRouter();
   const [isObscure, setObscure] = React.useState(true);
   const [isObscureConf, setObscureConf] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
@@ -31,7 +30,7 @@ const RegisterPage = () => {
         password,
         confirmPassword,
       });
-      router.navigate("/(personalize)/FirstPage");
+      router.replace("/(personalize)/FirstPage");
       Toast.show({
         type: "success",
         text1: "Register Successful",

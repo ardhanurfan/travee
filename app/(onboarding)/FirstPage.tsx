@@ -113,7 +113,7 @@ function FirstPage() {
             </View>
           </View>
           <UnderButton
-            onPress={() => router.push("/(onboarding)/SecondPage")}
+            onPress={() => router.replace("/(onboarding)/SecondPage")}
             text="Continue"
           />
         </View>

@@ -7,7 +7,7 @@ import { View } from "react-native";
 
 function ProtectedPage() {
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
         router.replace("/(onboarding)/FirstPage");
       } else {
