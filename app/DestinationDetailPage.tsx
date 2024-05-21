@@ -1,16 +1,47 @@
 import UnderButton from "@/components/UnderButton";
 import Colors from "@/constants/Colors";
+import {
+  GetSaved,
+  toggleBookmarkDestination,
+} from "@/services/BookmarkService";
 import { GetDestinationById } from "@/services/DestinationService";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 import { ScrollView, Image, View } from "react-native";
 import { Button, IconButton, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
 
 function DestinationDetailPage() {
   const router = useRouter();
   const { id } = useLocalSearchParams();
   const { destination } = GetDestinationById(id as string);
+  const { savedDestinations } = GetSaved();
+
+  const handleBookmark = async () => {
+    try {
+      await toggleBookmarkDestination(destination!);
+      if (savedDestinations.find((d) => d.id === id)) {
+        Toast.show({
+          type: "error",
+          text1: "Destination Removed",
+          text2: "Destination removed from your bookmarks",
+        });
+      } else {
+        Toast.show({
+          type: "success",
+          text1: "Destination Saved",
+          text2: "Destination saved to your bookmarks",
+        });
+      }
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: error as string,
+        text2: "Failed save destination",
+      });
+    }
+  };
 
   return (
     <SafeAreaView
@@ -39,14 +70,22 @@ function DestinationDetailPage() {
           onPress={() => router.back()}
         />
         <IconButton
-          icon="bookmark"
-          iconColor={Colors.primary}
+          icon={
+            savedDestinations.find((d) => d.id === id)
+              ? "bookmark"
+              : "bookmark-outline"
+          }
+          iconColor={
+            savedDestinations.find((d) => d.id === id)
+              ? Colors.primary
+              : Colors.black
+          }
           size={24}
           style={{
             backgroundColor: Colors.white,
             borderRadius: 999,
           }}
-          onPress={() => console.log("Pressed")}
+          onPress={handleBookmark}
         />
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>

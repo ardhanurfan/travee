@@ -42,7 +42,7 @@ export function GetDestinationById(id: string) {
     const unsubscribe = onSnapshot(
       doc(firestore, `destinations/${id}`),
       (doc) => {
-        const data = doc.data();
+        const data = { id: id, ...doc.data() };
         setDestination(data as Destination);
         setLoading(false);
       },

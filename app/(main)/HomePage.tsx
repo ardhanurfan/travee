@@ -3,6 +3,7 @@ import MyTripCard from "@/components/MyTripCard";
 import { auth } from "@/config/firebase";
 import Colors from "@/constants/Colors";
 import { GetUserData } from "@/services/AuthService";
+import { GetSaved } from "@/services/BookmarkService";
 import { GetDestinations } from "@/services/DestinationService";
 import { useRouter } from "expo-router";
 import {
@@ -20,6 +21,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function HomePage() {
   const router = useRouter();
   const { destinations } = GetDestinations();
+  const { savedDestinations } = GetSaved();
   const { user } = GetUserData();
 
   const logout = async () => {
@@ -131,7 +133,14 @@ export default function HomePage() {
           showsHorizontalScrollIndicator={false}
           data={destinations}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <DestinationCard destination={item} />}
+          renderItem={({ item }) => (
+            <DestinationCard
+              destination={item}
+              isBookmarked={
+                savedDestinations.find((d) => d.id === item.id) ? true : false
+              }
+            />
+          )}
         ></FlatList>
 
         {/* Upcoming */}

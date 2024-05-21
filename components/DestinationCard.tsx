@@ -1,18 +1,45 @@
 import Colors from "@/constants/Colors";
 import { Destination } from "@/constants/Types";
-import { useRouter } from "expo-router";
+import { toggleBookmarkDestination } from "@/services/BookmarkService";
+import { router } from "expo-router";
 import React from "react";
 import { View, Image, Text, Pressable } from "react-native";
 import { IconButton } from "react-native-paper";
+import Toast from "react-native-toast-message";
 
 function DestinationCard({
   detail = false,
   destination,
+  isBookmarked,
 }: {
   detail?: boolean;
   destination: Destination;
+  isBookmarked: boolean;
 }) {
-  const router = useRouter();
+  const handleBookmark = async () => {
+    try {
+      await toggleBookmarkDestination(destination);
+      if (isBookmarked) {
+        Toast.show({
+          type: "error",
+          text1: "Destination Removed",
+          text2: "Destination removed from your bookmarks",
+        });
+      } else {
+        Toast.show({
+          type: "success",
+          text1: "Destination Saved",
+          text2: "Destination saved to your bookmarks",
+        });
+      }
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: error as string,
+        text2: "Failed save destination",
+      });
+    }
+  };
 
   return (
     <Pressable
@@ -59,8 +86,8 @@ function DestinationCard({
           {destination.country}
         </Text>
         <IconButton
-          icon="bookmark"
-          iconColor={Colors.primary}
+          icon={isBookmarked ? "bookmark" : "bookmark-outline"}
+          iconColor={isBookmarked ? Colors.primary : Colors.black}
           size={20}
           style={{
             position: "absolute",
@@ -69,7 +96,7 @@ function DestinationCard({
             backgroundColor: Colors.white,
             borderRadius: 999,
           }}
-          onPress={() => console.log("Pressed")}
+          onPress={handleBookmark}
         />
       </View>
     </Pressable>
