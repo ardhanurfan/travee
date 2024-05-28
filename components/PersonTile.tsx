@@ -1,5 +1,5 @@
 import Colors from "@/constants/Colors";
-import { View, Image } from "react-native";
+import { View, Image, TouchableOpacity } from "react-native";
 import { Icon, Text } from "react-native-paper";
 
 function PersonTile({
@@ -7,11 +7,15 @@ function PersonTile({
   role,
   imageUrl,
   add,
+  onPress,
+  iconPressed,
 }: {
   name: string;
   role: string;
   imageUrl: string;
   add: boolean;
+  onPress?: () => void;
+  iconPressed?: boolean;
 }) {
   return (
     <View
@@ -49,15 +53,21 @@ function PersonTile({
       {role == "Trip Owner" ? (
         ""
       ) : add ? (
-        <View
-          style={{
-            padding: 4,
-            backgroundColor: Colors.secondary,
-            borderRadius: 64,
-          }}
-        >
-          <Icon source="plus" size={24} color={Colors.primary}></Icon>
-        </View>
+        <TouchableOpacity onPress={onPress}>
+          <View
+            style={{
+              padding: 4,
+              backgroundColor: iconPressed ? Colors.primary : Colors.secondary,
+              borderRadius: 64,
+            }}
+          >
+            <Icon
+              source="plus"
+              size={24}
+              color={iconPressed ? Colors.white : Colors.primary}
+            ></Icon>
+          </View>
+        </TouchableOpacity>
       ) : (
         <Icon source="trash-can-outline" size={28} color={Colors.orange}></Icon>
       )}

@@ -35,7 +35,7 @@ function SecondPage() {
             ></View>
           </View>
         </View>
-        <Appbar.BackAction style={{ display: "none" }}></Appbar.BackAction>
+        <Appbar.BackAction style={{ opacity: 0 }}></Appbar.BackAction>
       </Appbar.Header>
 
       <SafeAreaView

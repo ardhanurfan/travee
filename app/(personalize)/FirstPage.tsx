@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useRef } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { Appbar } from "react-native-paper";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { useRouter } from "expo-router";
 import UnderButton from "@/components/UnderButton";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Recaptcha from "react-native-recaptcha-that-works";
 
 function FirstPage() {
   const router = useRouter();
+  const recaptcha = useRef<any>(null);
+  const onVerify = (token: string) => {
+    console.log("success!", token);
+  };
+
+  const onExpire = () => {
+    console.warn("expired!");
+  };
 
   return (
     <>
@@ -66,6 +75,14 @@ function FirstPage() {
           >
             Please solve this captcha so we know you are a person
           </Text>
+          <Recaptcha
+            ref={recaptcha}
+            siteKey="<your-recaptcha-public-key>"
+            baseUrl="http://my.domain.com"
+            onVerify={onVerify}
+            onExpire={onExpire}
+            // size="invisible"
+          />
         </ScrollView>
 
         <UnderButton

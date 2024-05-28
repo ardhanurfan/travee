@@ -2,20 +2,31 @@ import PersonTile from "@/components/PersonTile";
 import UnderButton from "@/components/UnderButton";
 import Colors from "@/constants/Colors";
 import { useRouter } from "expo-router";
+import { useState } from "react";
 import { FlatList, ScrollView } from "react-native";
 import { Appbar, TextInput, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 function AddPage() {
   const router = useRouter();
+  const [pressedIds, setPressedIds] = useState<number[]>([]);
+
+  const handlePress = (id: number) => {
+    setPressedIds((prevPressedIds: any) =>
+      prevPressedIds.includes(id)
+        ? prevPressedIds.filter((pressedId: number) => pressedId !== id)
+        : [...prevPressedIds, id]
+    );
+  };
   return (
     <>
       <Appbar.Header style={{ backgroundColor: Colors.white }}>
         <Appbar.BackAction onPress={() => router.back()}></Appbar.BackAction>
         <Appbar.Content
           title="Add Person"
-          titleStyle={{ fontFamily: "Figtree_700Bold" }}
+          titleStyle={{ fontFamily: "Figtree_700Bold", textAlign: "center" }}
         />
+        <Appbar.BackAction style={{ opacity: 0 }}></Appbar.BackAction>
       </Appbar.Header>
       <SafeAreaView
         edges={["bottom"]}
@@ -79,12 +90,14 @@ function AddPage() {
                 role={item.role}
                 imageUrl={item.imageUrl}
                 add={item.add}
+                onPress={() => handlePress(item.id)}
+                iconPressed={pressedIds.includes(item.id)}
               />
             )}
           ></FlatList>
         </ScrollView>
         <UnderButton
-          onPress={() => router.push("/(person)/ListPage")}
+          onPress={() => router.push("/(splitBill)/ListPage")}
           text={"Add Person"}
         />
       </SafeAreaView>

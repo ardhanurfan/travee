@@ -15,8 +15,9 @@ function ListPage() {
         <Appbar.BackAction onPress={() => router.back()}></Appbar.BackAction>
         <Appbar.Content
           title="Person"
-          titleStyle={{ fontFamily: "Figtree_700Bold" }}
+          titleStyle={{ fontFamily: "Figtree_700Bold", textAlign: "center" }}
         />
+        <Appbar.BackAction style={{ opacity: 0 }}></Appbar.BackAction>
       </Appbar.Header>
       <SafeAreaView
         edges={["bottom"]}

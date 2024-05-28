@@ -92,7 +92,7 @@ function ThirdPage() {
             ></View>
           </View>
         </View>
-        <Appbar.BackAction style={{ display: "none" }}></Appbar.BackAction>
+        <Appbar.BackAction style={{ opacity: 0 }}></Appbar.BackAction>
       </Appbar.Header>
 
       <KeyboardAvoidingView behavior={"height"} style={{ flex: 1 }}>

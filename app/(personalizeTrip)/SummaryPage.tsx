@@ -15,8 +15,9 @@ function SummaryPage() {
         <Appbar.BackAction onPress={() => router.back()}></Appbar.BackAction>
         <Appbar.Content
           title="Review Summary"
-          titleStyle={{ fontFamily: "Figtree_700Bold" }}
+          titleStyle={{ fontFamily: "Figtree_700Bold", textAlign: "center" }}
         />
+        <Appbar.BackAction style={{ opacity: 0 }}></Appbar.BackAction>
       </Appbar.Header>
       <SafeAreaView
         edges={["bottom"]}
