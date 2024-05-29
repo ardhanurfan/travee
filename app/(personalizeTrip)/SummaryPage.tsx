@@ -1,6 +1,10 @@
 import PreferenceContent from "@/components/PreferenceContent";
 import UnderButton from "@/components/UnderButton";
+import { auth } from "@/config/firebase";
 import Colors from "@/constants/Colors";
+import { usePersonalize } from "@/context/PersonalizeContext";
+import { GetEvents } from "@/services/DestinationService";
+import { useAddTrip } from "@/services/TripService";
 import { useRouter } from "expo-router";
 import { ScrollView, View, Image } from "react-native";
 import { Appbar, Icon, Text } from "react-native-paper";
@@ -8,6 +12,48 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 function SummaryPage() {
   const router = useRouter();
+  const {
+    count_people,
+    start_date,
+    end_date,
+    preferences,
+    budget,
+    name,
+    country,
+    photo_url,
+    destination,
+    clear
+  } = usePersonalize();
+  const formatDate = (date: Date): string => {
+    return date.toLocaleDateString();
+  };
+  const { addTrip, loading, error } = useAddTrip();
+  const { events } = GetEvents({ destinationId: destination });
+
+  const handleAddTrip = async () => {
+    // Add trip and events to Firestore
+    await addTrip({
+      budget: budget,
+      count_people: count_people,
+      destination: destination,
+      start_date: start_date,
+      end_date: end_date,
+      members: [auth.currentUser ? auth.currentUser.uid : ""],
+      owners: auth.currentUser?.uid,
+      preferences: preferences,
+      events: events.map((event) => ({
+        event: event,
+        time_finish: start_date,
+        time_start: start_date,
+      })),
+    });
+    for (let i = 0; i < 6; i++) {
+      router.back();
+    }
+    clear()
+    // Redirect to ListPage after adding trip
+    router.replace("/(main)/MyTripsPage");
+  };
 
   return (
     <>
@@ -81,19 +127,19 @@ function SummaryPage() {
               }}
             >
               <Image
-                source={require("../../assets/destination.png")}
+                source={{ uri: photo_url }}
                 style={{ width: 128, height: 96, borderRadius: 16 }}
               />
               <View>
                 <Text
                   style={{ fontFamily: "Figtree_600SemiBold", fontSize: 16 }}
                 >
-                  Jogja, Central Java
+                  {name}
                 </Text>
                 <Text
                   style={{ fontFamily: "Figtree_400Regular", fontSize: 16 }}
                 >
-                  🇮🇩 Indonesia
+                  {country}
                 </Text>
               </View>
             </View>
@@ -145,7 +191,7 @@ function SummaryPage() {
                 marginLeft: 37,
               }}
             >
-              Only Me 🚶🏻
+              {count_people}
             </Text>
           </View>
           <View
@@ -191,7 +237,7 @@ function SummaryPage() {
                 marginLeft: 37,
               }}
             >
-              12 March 2024 - 15 March 2024
+              {formatDate(start_date)} - {formatDate(end_date)}
             </Text>
           </View>
           <View
@@ -246,9 +292,12 @@ function SummaryPage() {
                 marginLeft: 37,
               }}
             >
-              <PreferenceContent text="Adventure Travel 🔍" isSelected={false}/>
-              <PreferenceContent text="City Breaks 🌇" isSelected={false} />
-              <PreferenceContent text="Glampings 🏕️" isSelected={false} />
+              {preferences.map((preference, index) => (
+                <PreferenceContent
+                  text={preference}
+                  isSelected={preferences.includes(preference)}
+                />
+              ))}
             </View>
           </View>
           <View
@@ -298,12 +347,12 @@ function SummaryPage() {
                 marginLeft: 37,
               }}
             >
-              Luxury 💎
+              {budget}
             </Text>
           </View>
         </ScrollView>
         <UnderButton
-          onPress={() => router.push("/(person)/ListPage")}
+          onPress={() => handleAddTrip()}
           text="Build My Itinerary"
         />
       </SafeAreaView>

@@ -5,29 +5,21 @@ import { ScrollView, View, Text } from "react-native";
 import { Appbar } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useCallback, useState } from "react";
-import { DatePickerModal } from "react-native-paper-dates";
 import CalendarPicker from "react-native-calendar-picker";
-
-interface DateRange {
-  startDate?: Date;
-  endDate?: Date;
-}
+import { usePersonalize } from "@/context/PersonalizeContext";
 
 function SecondPage() {
   const router = useRouter();
-  const [range, setRange] = useState<DateRange>({
-    startDate: undefined,
-    endDate: undefined,
-  });
+  const { start_date, end_date, setStartDate, setEndDate } = usePersonalize();
   const onDateChange = useCallback(
     (date: Date, type: "START_DATE" | "END_DATE") => {
       if (type === "START_DATE") {
-        setRange((prev) => ({ ...prev, startDate: date, endDate: undefined }));
+        setStartDate(date);
       } else if (type === "END_DATE") {
-        setRange((prev) => ({ ...prev, endDate: date }));
+        setEndDate(date);
       }
     },
-    [setRange]
+    [setStartDate, setEndDate]
   );
   return (
     <>
@@ -90,26 +82,17 @@ function SecondPage() {
             Choose the dates for your trip. This helps us plan the perfect
             itinerary for your travel period.
           </Text>
-          {/* <DatePickerModal
-            locale="en"
-            mode="range"
-            visible={true}
-            startDate={range.startDate}
-            endDate={range.endDate}
-            onConfirm={onConfirm}
-            onDismiss={() => {}}
-          /> */}
           <CalendarPicker
             onDateChange={onDateChange}
             allowRangeSelection={true}
-            selectedEndDate={range.endDate}
-            selectedStartDate={range.startDate}
+            selectedEndDate={end_date}
+            selectedStartDate={start_date}
             textStyle={{ fontFamily: "Figtree_400Regular", fontSize: 16 }}
-            selectedRangeStartStyle={{backgroundColor: Colors.primary}}
-            selectedRangeEndStyle={{backgroundColor: Colors.primary}}
-            selectedRangeStyle={{backgroundColor: Colors.secondary}}
-            selectedRangeStartTextStyle={{color: Colors.white}}
-            selectedRangeEndTextStyle={{color: Colors.white}}
+            selectedRangeStartStyle={{ backgroundColor: Colors.primary }}
+            selectedRangeEndStyle={{ backgroundColor: Colors.primary }}
+            selectedRangeStyle={{ backgroundColor: Colors.secondary }}
+            selectedRangeStartTextStyle={{ color: Colors.white }}
+            selectedRangeEndTextStyle={{ color: Colors.white }}
             startFromMonday={true}
             previousTitle="Prev"
           />

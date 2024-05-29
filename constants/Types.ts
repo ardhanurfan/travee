@@ -53,3 +53,14 @@ export interface Itinerary {
   date: string;
   items: ItineraryItem[];
 }
+
+export interface TripAdd {
+  budget: string;
+  count_people: string;
+  destination: string;
+  start_date: Date;
+  end_date: Date;
+  members: string[];
+  owners: string;
+  preferences: string[];
+}

@@ -1,6 +1,7 @@
 import PersonalizeTile from "@/components/PersonalizeTile";
 import UnderButton from "@/components/UnderButton";
 import Colors from "@/constants/Colors";
+import { usePersonalize } from "@/context/PersonalizeContext";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Dimensions, View, Text, ScrollView } from "react-native";
@@ -10,10 +11,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 function FirstPage() {
   const [selectedCard, setSelectedCard] = useState<number>(0);
   const router = useRouter();
-  let ScreenHeight = Dimensions.get("window").height;
   const handleCardPress = (index: number) => {
     setSelectedCard(index);
   };
+  const {count_people, setCountPeople} = usePersonalize();
   return (
     <>
       <Appbar.Header style={{ backgroundColor: Colors.white }}>
@@ -93,8 +94,8 @@ function FirstPage() {
                 key={index}
                 title={card.title}
                 desc={card.desc}
-                onClick={() => handleCardPress(index)}
-                selected={selectedCard === index}
+                onClick={() => setCountPeople(card.title)}
+                selected={card.title == count_people}
               />
             ))}
         </ScrollView>

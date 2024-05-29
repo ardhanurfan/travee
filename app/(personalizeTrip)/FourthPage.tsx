@@ -1,19 +1,16 @@
 import PersonalizeTile from "@/components/PersonalizeTile";
 import UnderButton from "@/components/UnderButton";
 import Colors from "@/constants/Colors";
+import { usePersonalize } from "@/context/PersonalizeContext";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Dimensions, View, Text, ScrollView } from "react-native";
-import { Appbar, Button } from "react-native-paper";
+import { View, Text, ScrollView } from "react-native";
+import { Appbar } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 function FourthPage() {
-  const [selectedCard, setSelectedCard] = useState<number>(0);
   const router = useRouter();
-  let ScreenHeight = Dimensions.get("window").height;
-  const handleCardPress = (index: number) => {
-    setSelectedCard(index);
-  };
+  const { budget, setBudget } = usePersonalize();
   return (
     <>
       <Appbar.Header style={{ backgroundColor: Colors.white }}>
@@ -90,8 +87,8 @@ function FourthPage() {
               key={index}
               title={card.title}
               desc={card.desc}
-              onClick={() => handleCardPress(index)}
-              selected={selectedCard === index}
+              onClick={() => setBudget(card.title)}
+              selected={card.title == budget}
             />
           ))}
         </ScrollView>

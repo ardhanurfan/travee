@@ -1,5 +1,5 @@
 import { firestore } from "@/config/firebase";
-import { Destination } from "@/constants/Types";
+import { Destination, Event } from "@/constants/Types";
 import { collection, doc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
@@ -58,4 +58,35 @@ export function GetDestinationById(id: string) {
   }, []);
 
   return { destination, loading, error };
+}
+
+
+export function GetEvents({destinationId}:{destinationId:string}) {
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      collection(firestore, `destinations/${destinationId}/events`),
+      (snapshot) => {
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setEvents(data as Event[]);
+        setLoading(false);
+      },
+      (error) => {
+        console.error("Error fetching collection: ", error);
+        setError(error);
+        setLoading(false);
+      }
+    );
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, []);
+
+  return { events, loading, error };
 }

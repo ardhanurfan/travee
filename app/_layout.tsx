@@ -1,3 +1,4 @@
+import PersonalizeProvider from "@/context/PersonalizeContext";
 import PreferencesProvider from "@/context/PreferencesContext";
 import {
   Figtree_300Light,
@@ -57,121 +58,126 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <PreferencesProvider>
-      <Stack>
-        <Stack.Screen name="(auth)/index" options={{ headerShown: false }} />
+      <PersonalizeProvider>
+        <Stack>
+          <Stack.Screen name="(auth)/index" options={{ headerShown: false }} />
 
-        <Stack.Screen name="(main)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="PopularDestinationPage"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="DestinationDetailPage"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="TripDetailPage" options={{ headerShown: false }} />
+          <Stack.Screen name="(main)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="PopularDestinationPage"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="DestinationDetailPage"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="TripDetailPage"
+            options={{ headerShown: false }}
+          />
 
-        {/* Onboarding */}
-        <Stack.Screen
-          name="(onboarding)/FirstPage"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="(onboarding)/SecondPage"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="(onboarding)/ThirdPage"
-          options={{ headerShown: false }}
-        />
+          {/* Onboarding */}
+          <Stack.Screen
+            name="(onboarding)/FirstPage"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="(onboarding)/SecondPage"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="(onboarding)/ThirdPage"
+            options={{ headerShown: false }}
+          />
 
-        {/* Auth */}
-        <Stack.Screen
-          name="(auth)/LoginPage"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="(auth)/RegisterPage"
-          options={{ headerShown: false }}
-        />
+          {/* Auth */}
+          <Stack.Screen
+            name="(auth)/LoginPage"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="(auth)/RegisterPage"
+            options={{ headerShown: false }}
+          />
 
-        {/* Personalize*/}
-        <Stack.Screen
-          name="(personalize)/FirstPage"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="(personalize)/SecondPage"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="(personalize)/ThirdPage"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="(personalize)/FinishedPage"
-          options={{ headerShown: false }}
-        />
+          {/* Personalize*/}
+          <Stack.Screen
+            name="(personalize)/FirstPage"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="(personalize)/SecondPage"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="(personalize)/ThirdPage"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="(personalize)/FinishedPage"
+            options={{ headerShown: false }}
+          />
 
-        {/* Start Trip */}
-        <Stack.Screen
-          name="(startTrip)/FirstPage"
-          options={{ headerShown: false }}
-        />
+          {/* Start Trip */}
+          <Stack.Screen
+            name="(startTrip)/FirstPage"
+            options={{ headerShown: false }}
+          />
 
-        {/* PersonalizeTrip */}
-        <Stack.Screen
-          name="(personalizeTrip)/FirstPage"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="(personalizeTrip)/SecondPage"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="(personalizeTrip)/ThirdPage"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="(personalizeTrip)/FourthPage"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="(personalizeTrip)/SummaryPage"
-          options={{ headerShown: false }}
-        />
+          {/* PersonalizeTrip */}
+          <Stack.Screen
+            name="(personalizeTrip)/FirstPage"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="(personalizeTrip)/SecondPage"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="(personalizeTrip)/ThirdPage"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="(personalizeTrip)/FourthPage"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="(personalizeTrip)/SummaryPage"
+            options={{ headerShown: false }}
+          />
 
-        {/* Person */}
-        <Stack.Screen
-          name="(person)/ListPage"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="(person)/AddPage"
-          options={{ headerShown: false }}
-        />
+          {/* Person */}
+          <Stack.Screen
+            name="(person)/ListPage"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="(person)/AddPage"
+            options={{ headerShown: false }}
+          />
 
-        {/* Split Bill */}
-        <Stack.Screen
-          name="(splitBill)/ListPage"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="(splitBill)/AddPage"
-          options={{ headerShown: false }}
-        />
+          {/* Split Bill */}
+          <Stack.Screen
+            name="(splitBill)/ListPage"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="(splitBill)/AddPage"
+            options={{ headerShown: false }}
+          />
 
-        {/* Itinerary */}
-        <Stack.Screen
-          name="(itinerary)/EditPage"
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="(itinerary)/AddPage"
-          options={{ headerShown: false }}
-        />
-      </Stack>
-      <Toast />
+          {/* Itinerary */}
+          <Stack.Screen
+            name="(itinerary)/EditPage"
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="(itinerary)/AddPage"
+            options={{ headerShown: false }}
+          />
+        </Stack>
+        <Toast />
+      </PersonalizeProvider>
     </PreferencesProvider>
   );
 }
