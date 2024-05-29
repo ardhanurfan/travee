@@ -4,11 +4,31 @@ import { useRouter } from "expo-router";
 import { ScrollView, View, Text } from "react-native";
 import { Appbar } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState } from "react";
+import React, { useCallback, useState } from "react";
+import { DatePickerModal } from "react-native-paper-dates";
+import CalendarPicker from "react-native-calendar-picker";
+
+interface DateRange {
+  startDate?: Date;
+  endDate?: Date;
+}
 
 function SecondPage() {
   const router = useRouter();
-
+  const [range, setRange] = useState<DateRange>({
+    startDate: undefined,
+    endDate: undefined,
+  });
+  const onDateChange = useCallback(
+    (date: Date, type: "START_DATE" | "END_DATE") => {
+      if (type === "START_DATE") {
+        setRange((prev) => ({ ...prev, startDate: date, endDate: undefined }));
+      } else if (type === "END_DATE") {
+        setRange((prev) => ({ ...prev, endDate: date }));
+      }
+    },
+    [setRange]
+  );
   return (
     <>
       <Appbar.Header style={{ backgroundColor: Colors.white }}>
@@ -62,6 +82,7 @@ function SecondPage() {
               fontFamily: "Figtree_400Regular",
               fontSize: 16,
               marginTop: 20,
+              marginBottom: 20,
               color: "#848484",
               textAlign: "justify",
             }}
@@ -69,6 +90,29 @@ function SecondPage() {
             Choose the dates for your trip. This helps us plan the perfect
             itinerary for your travel period.
           </Text>
+          {/* <DatePickerModal
+            locale="en"
+            mode="range"
+            visible={true}
+            startDate={range.startDate}
+            endDate={range.endDate}
+            onConfirm={onConfirm}
+            onDismiss={() => {}}
+          /> */}
+          <CalendarPicker
+            onDateChange={onDateChange}
+            allowRangeSelection={true}
+            selectedEndDate={range.endDate}
+            selectedStartDate={range.startDate}
+            textStyle={{ fontFamily: "Figtree_400Regular", fontSize: 16 }}
+            selectedRangeStartStyle={{backgroundColor: Colors.primary}}
+            selectedRangeEndStyle={{backgroundColor: Colors.primary}}
+            selectedRangeStyle={{backgroundColor: Colors.secondary}}
+            selectedRangeStartTextStyle={{color: Colors.white}}
+            selectedRangeEndTextStyle={{color: Colors.white}}
+            startFromMonday={true}
+            previousTitle="Prev"
+          />
         </ScrollView>
 
         <UnderButton
