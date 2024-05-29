@@ -1,9 +1,10 @@
+import ItineraryTile from "@/components/ItineraryTile";
 import PersonTile from "@/components/PersonTile";
 import UnderButton from "@/components/UnderButton";
 import Colors from "@/constants/Colors";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { FlatList, View } from "react-native";
+import { FlatList, ScrollView, View } from "react-native";
 import { Appbar, TextInput, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -23,7 +24,7 @@ function AddPage() {
       <Appbar.Header style={{ backgroundColor: Colors.white }}>
         <Appbar.BackAction onPress={() => router.back()}></Appbar.BackAction>
         <Appbar.Content
-          title="Add Person"
+          title="Add Event"
           titleStyle={{ fontFamily: "Figtree_700Bold", textAlign: "center" }}
         />
         <Appbar.BackAction style={{ opacity: 0 }}></Appbar.BackAction>
@@ -38,7 +39,7 @@ function AddPage() {
         <View style={{ paddingHorizontal: 20 }}>
           <TextInput
             mode="flat"
-            placeholder="Search Name..."
+            placeholder="Search Places..."
             underlineStyle={{ display: "none" }}
             left={<TextInput.Icon icon="magnify" color={Colors.gray} />}
             cursorColor={Colors.primary}
@@ -50,18 +51,9 @@ function AddPage() {
               borderBottomLeftRadius: 12,
               borderBottomRightRadius: 12,
               marginTop: 12,
-            }}
-          />
-          <Text
-            style={{
-              fontFamily: "Figtree_600SemiBold",
-              fontSize: 16,
-              marginTop: 16,
               marginBottom: 4,
             }}
-          >
-            Suggestions
-          </Text>
+          />
         </View>
         <FlatList
           showsHorizontalScrollIndicator={false}
@@ -69,35 +61,34 @@ function AddPage() {
           data={[
             {
               id: 1,
-              name: "Salsabila Ayuni",
-              role: "",
-              imageUrl: "../assets/person.png",
-              add: true,
+              name: "Ocean Grill 1",
+              type: "Restaurant",
+              imageUrl: "../assets/itinerary.png",
             },
             {
               id: 2,
-              name: "Nalendra Qiandri",
-              role: "Editor",
-              imageUrl: "../assets/person.png",
-              add: true,
+              name: "Ocean Grill 3",
+              type: "Restaurant",
+              imageUrl: "../assets/itinerary.png",
+            },
+            {
+              id: 3,
+              name: "Ocean Grill 2",
+              type: "Restaurant",
+              imageUrl: "../assets/itinerary.png",
             },
           ]}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <PersonTile
+            <ItineraryTile
               name={item.name}
-              role={item.role}
+              type={item.type}
               imageUrl={item.imageUrl}
-              add={item.add}
-              onPress={() => handlePress(item.id)}
-              iconPressed={pressedIds.includes(item.id)}
+              add
             />
           )}
         ></FlatList>
-        <UnderButton
-          onPress={() => router.push("/(splitBill)/ListPage")}
-          text={"Add Person"}
-        />
+        <UnderButton onPress={() => {}} text={"Save"} />
       </SafeAreaView>
     </>
   );

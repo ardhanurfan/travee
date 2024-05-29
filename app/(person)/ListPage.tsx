@@ -26,39 +26,35 @@ function ListPage() {
           backgroundColor: Colors.white,
         }}
       >
-        <ScrollView
-          showsVerticalScrollIndicator={false}
+        <FlatList
           style={{ paddingHorizontal: 20 }}
-        >
-          <FlatList
-            showsHorizontalScrollIndicator={false}
-            data={[
-              {
-                id: 1,
-                name: "Salsabila Ayuni",
-                role: "Trip Owner",
-                imageUrl: "../assets/person.png",
-                add: false,
-              },
-              {
-                id: 2,
-                name: "Nalendra Qiandri",
-                role: "Editor",
-                imageUrl: "../assets/person.png",
-                add: false,
-              },
-            ]}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <PersonTile
-                name={item.name}
-                role={item.role}
-                imageUrl={item.imageUrl}
-                add={item.add}
-              />
-            )}
-          ></FlatList>
-        </ScrollView>
+          showsHorizontalScrollIndicator={false}
+          data={[
+            {
+              id: 1,
+              name: "Salsabila Ayuni",
+              role: "Trip Owner",
+              imageUrl: "../assets/person.png",
+              add: false,
+            },
+            {
+              id: 2,
+              name: "Nalendra Qiandri",
+              role: "Editor",
+              imageUrl: "../assets/person.png",
+              add: false,
+            },
+          ]}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <PersonTile
+              name={item.name}
+              role={item.role}
+              imageUrl={item.imageUrl}
+              add={item.add}
+            />
+          )}
+        ></FlatList>
         <UnderButton
           onPress={() => router.push("/(person)/AddPage")}
           text={"Add Person"}

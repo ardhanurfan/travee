@@ -2,39 +2,37 @@ import Colors from "@/constants/Colors";
 import { View, Image, TouchableOpacity } from "react-native";
 import { Icon, Text } from "react-native-paper";
 
-function PersonTile({
+function ItineraryTile({
   name,
-  role,
+  type,
   imageUrl,
   add,
   onPress,
   iconPressed,
 }: {
   name: string;
-  role: string;
+  type: string;
   imageUrl: string;
-  add: boolean;
+  add?: boolean;
   onPress?: () => void;
   iconPressed?: boolean;
 }) {
   return (
     <View
       style={{
-        borderBottomWidth: 1,
-        borderBottomColor: "#D1D5DA",
         paddingVertical: 12,
         flexDirection: "row",
-        justifyContent: role == "Trip Owner" ? "flex-start" : "space-between",
+        justifyContent: "space-between",
         alignItems: "center",
       }}
     >
       <View style={{ flexDirection: "row", alignItems: "center", gap: 16 }}>
         <Image
-          source={require("../assets/person.png")}
+          source={require("../assets/itinerary.png")}
           style={{
-            width: 72,
+            width: 120,
             height: 72,
-            borderRadius: 64,
+            borderRadius: 12,
             objectFit: "cover",
           }}
         />
@@ -48,16 +46,14 @@ function PersonTile({
               fontSize: 12,
               color: Colors.gray,
               marginTop: 2,
-              display: add ? "none" : "flex",
+              display: "flex",
             }}
           >
-            {role}
+            {type}
           </Text>
         </View>
       </View>
-      {role == "Trip Owner" ? (
-        ""
-      ) : add ? (
+      {add ? (
         <TouchableOpacity onPress={onPress}>
           <View
             style={{
@@ -80,4 +76,4 @@ function PersonTile({
   );
 }
 
-export default PersonTile;
+export default ItineraryTile;

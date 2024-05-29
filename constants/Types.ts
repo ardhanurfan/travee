@@ -31,3 +31,16 @@ export interface Event {
   name: string;
   type: string;
 }
+
+export interface ItineraryItem {
+  id: number;
+  name: string;
+  type: string;
+  imageUrl: string;
+  date: Date;
+}
+
+export interface GroupedItinerary {
+  date: string;
+  itineraries: ItineraryItem[];
+}

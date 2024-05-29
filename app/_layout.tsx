@@ -151,13 +151,23 @@ function RootLayoutNav() {
           options={{ headerShown: false }}
         />
 
-        {/* Person */}
+        {/* Split Bill */}
         <Stack.Screen
           name="(splitBill)/ListPage"
           options={{ headerShown: false }}
         />
         <Stack.Screen
           name="(splitBill)/AddPage"
+          options={{ headerShown: false }}
+        />
+
+        {/* Itinerary */}
+        <Stack.Screen
+          name="(itinerary)/EditPage"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="(itinerary)/AddPage"
           options={{ headerShown: false }}
         />
       </Stack>

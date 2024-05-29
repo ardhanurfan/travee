@@ -24,81 +24,75 @@ function ListPage() {
           backgroundColor: Colors.white,
         }}
       >
-        <ScrollView
-          showsVerticalScrollIndicator={false}
+        <FlatList
+          showsHorizontalScrollIndicator={false}
           style={{ paddingHorizontal: 20 }}
-        >
-          <FlatList
-            showsHorizontalScrollIndicator={false}
-            data={[
-              {
-                id: 1,
-                title: "Hotel Fees",
-                price: "$200",
-              },
-              {
-                id: 2,
-                title: "Airplane Fees",
-                price: "$1200",
-              },
-            ]}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <View
-                style={{
-                  borderBottomWidth: 1,
-                  borderBottomColor: "#D1D5DA",
-                  paddingVertical: 20,
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Text
-                  style={{ fontFamily: "Figtree_600SemiBold", fontSize: 18 }}
-                >
-                  {item.title}
-                </Text>
-                <Text
-                  style={{
-                    fontFamily: "Figtree_400Regular",
-                    fontSize: 16,
-                    color: Colors.gray,
-                  }}
-                >
-                  {item.price}
-                </Text>
-              </View>
-            )}
-          ></FlatList>
-          <View
-            style={{
-              marginTop: 20,
-              flexDirection: "row",
-              justifyContent: "flex-end",
-            }}
-          >
-            <View style={{ flexDirection: "row" }}>
+          data={[
+            {
+              id: 1,
+              title: "Hotel Fees",
+              price: "$200",
+            },
+            {
+              id: 2,
+              title: "Airplane Fees",
+              price: "$1200",
+            },
+          ]}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <View
+              style={{
+                borderBottomWidth: 1,
+                borderBottomColor: "#D1D5DA",
+                paddingVertical: 20,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Text style={{ fontFamily: "Figtree_600SemiBold", fontSize: 18 }}>
+                {item.title}
+              </Text>
               <Text
                 style={{
                   fontFamily: "Figtree_400Regular",
-                  fontSize: 20,
+                  fontSize: 16,
+                  color: Colors.gray,
                 }}
               >
-                Total
-              </Text>
-              <Text
-                style={{
-                  fontFamily: "Figtree_600SemiBold",
-                  fontSize: 20,
-                }}
-              >
-                {" "}
-                USD 1400
+                {item.price}
               </Text>
             </View>
+          )}
+        ></FlatList>
+        <View
+          style={{
+            marginTop: 20,
+            flexDirection: "row",
+            justifyContent: "flex-end",
+          }}
+        >
+          <View style={{ flexDirection: "row" }}>
+            <Text
+              style={{
+                fontFamily: "Figtree_400Regular",
+                fontSize: 20,
+              }}
+            >
+              Total
+            </Text>
+            <Text
+              style={{
+                fontFamily: "Figtree_600SemiBold",
+                fontSize: 20,
+              }}
+            >
+              {" "}
+              USD 1400
+            </Text>
           </View>
-        </ScrollView>
+        </View>
         <UnderButton
           onPress={() => router.push("/(splitBill)/AddPage")}
           text="Add Bill"

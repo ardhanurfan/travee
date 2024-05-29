@@ -95,7 +95,7 @@ function TripDetailPage() {
             backgroundColor: Colors.primary,
             borderRadius: 999,
           }}
-          onPress={() => router.back()}
+          onPress={() => router.push("/(itinerary)/EditPage")}
         />
       </View>
 
