@@ -5,6 +5,7 @@ import Colors from "@/constants/Colors";
 import { GetUserData } from "@/services/AuthService";
 import { GetSaved } from "@/services/BookmarkService";
 import { GetDestinations } from "@/services/DestinationService";
+import { GetTrips } from "@/services/TripService";
 import { useRouter } from "expo-router";
 import {
   View,
@@ -21,6 +22,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function HomePage() {
   const router = useRouter();
   const { destinations } = GetDestinations();
+  const { trips } = GetTrips();
   const { user } = GetUserData();
 
   const logout = async () => {
@@ -159,20 +161,7 @@ export default function HomePage() {
         </View>
         <FlatList
           scrollEnabled={false}
-          data={[
-            {
-              id: 1,
-              title: "Jogjakarta, Central Java",
-              fasility: "Jan 12 - Jan 14, 2025 | A Couple | Luxury",
-              image: require("../../assets/destination.png"),
-            },
-            {
-              id: 2,
-              title: "Jogjakarta, Central Java",
-              fasility: "Jan 12 - Jan 14, 2025 | A Couple | Luxury",
-              image: require("../../assets/destination.png"),
-            },
-          ]}
+          data={trips}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => <MyTripCard trip={item} />}
         ></FlatList>

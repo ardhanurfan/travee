@@ -93,7 +93,7 @@ export function GetUserData() {
       (doc) => {
         const data = doc.data();
         if (data) {
-          setUser(data as User);
+          setUser({ id: doc.id, ...data } as User);
         }
         setLoading(false);
       },
@@ -119,7 +119,7 @@ export async function GetUserDataOnce() {
     const docRef = doc(firestore, `users/${auth.currentUser.uid}`);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      return docSnap.data() as User;
+      return { id: docSnap.id, ...docSnap.data() } as User;
     } else {
       return null;
     }

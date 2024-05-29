@@ -1,5 +1,6 @@
 import Colors from "@/constants/Colors";
 import { Trip } from "@/constants/Types";
+import { format } from "date-fns";
 import { useRouter } from "expo-router";
 import React from "react";
 import { View, Image, Text, Pressable } from "react-native";
@@ -12,7 +13,7 @@ function MyTripCard({ trip }: { trip: Trip }) {
     <Pressable onPress={() => router.push(`/TripDetailPage?tripId=${trip.id}`)}>
       <View style={{ flex: 1, marginBottom: 16 }}>
         <Image
-          source={require("../assets/destination.png")}
+          source={{ uri: trip.destination.photo_url }}
           style={{
             width: "100%",
             height: 200,
@@ -27,7 +28,7 @@ function MyTripCard({ trip }: { trip: Trip }) {
             marginVertical: 8,
           }}
         >
-          {trip.title}
+          {trip.destination.name}
         </Text>
         <Text
           style={{
@@ -35,7 +36,10 @@ function MyTripCard({ trip }: { trip: Trip }) {
             fontSize: 12,
           }}
         >
-          {trip.fasility}
+          {`${format(trip.start_date, "dd MMM yyyy")}-${format(
+            trip.end_date,
+            "dd MMM yyyy"
+          )}  |  ${trip.count_people}|  ${trip.budget}`}
         </Text>
         <View
           style={{

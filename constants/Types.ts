@@ -1,4 +1,5 @@
 export interface User {
+  id: string;
   email: string;
   fullname: string;
   phone_number: string;
@@ -7,10 +8,15 @@ export interface User {
 }
 
 export interface Trip {
-  id: number;
-  image: string;
-  title: string;
-  fasility: string;
+  id: string;
+  budget: string;
+  count_people: string;
+  destination: Destination;
+  start_date: Date;
+  end_date: Date;
+  members: User[];
+  owners: User;
+  preferences: string[];
 }
 
 export const enum MyTripsTypes {

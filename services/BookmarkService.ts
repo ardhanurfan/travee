@@ -1,6 +1,7 @@
 import { auth, firestore } from "@/config/firebase";
 import { Destination } from "@/constants/Types";
 import {
+  DocumentReference,
   collection,
   deleteDoc,
   doc,
@@ -42,7 +43,9 @@ export const toggleBookmarkDestination = async (destination: Destination) => {
     if (isBookmarked) {
       await deleteDoc(bookmarkRef);
     } else {
-      await setDoc(bookmarkRef, {destination: doc(firestore, `/destinations/${destination.id}`)});
+      await setDoc(bookmarkRef, {
+        destination: doc(firestore, `/destinations/${destination.id}`),
+      });
     }
   } catch (error) {
     throw "Internal Server Error";
@@ -58,14 +61,16 @@ export function GetSaved() {
     const unsubscribe = onSnapshot(
       collection(firestore, `users/${auth.currentUser?.uid}/bookmarks`),
       async (snapshot) => {
-        const data = await Promise.all(snapshot.docs.map(async (doc) => {
-          const ref = doc.data()["destination"];
-          const docSnap = await getDoc(ref);
-          return {
-            id: doc.id,
-            ...docSnap.data() 
-          };
-        }));
+        const data = await Promise.all(
+          snapshot.docs.map(async (doc) => {
+            const ref = doc.data()["destination"] as DocumentReference;
+            const docSnap = await getDoc(ref);
+            return {
+              id: doc.id,
+              ...docSnap.data(),
+            } as Destination;
+          })
+        );
         setSavedDestinations(data as Destination[]);
         setLoading(false);
       },
