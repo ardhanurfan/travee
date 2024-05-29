@@ -56,7 +56,12 @@ function TripDetailPage() {
               backgroundColor: Colors.white,
               borderRadius: 999,
             }}
-            onPress={() => console.log("Pressed")}
+            onPress={() =>
+              router.push({
+                pathname: "/(person)/ListPage",
+                params: { id: id },
+              })
+            }
           />
           <IconButton
             icon="currency-usd"
@@ -150,7 +155,7 @@ function TripDetailPage() {
               {itinerary.length > 0 &&
                 itinerary[dateIdx].items.map((item, idx) => (
                   <Marker
-                    key={idx.toString()}
+                    key={idx}
                     coordinate={{
                       latitude: item.event.latitude,
                       longitude: item.event.longitude,
@@ -169,8 +174,8 @@ function TripDetailPage() {
           >
             {itinerary.map((item, idx) => (
               <Button
+                key={idx}
                 onPress={() => setDateIdx(idx)}
-                key={idx.toString()}
                 style={{
                   width: 160,
                   backgroundColor:

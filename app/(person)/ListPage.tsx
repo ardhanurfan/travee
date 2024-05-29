@@ -1,13 +1,34 @@
 import PersonTile from "@/components/PersonTile";
 import UnderButton from "@/components/UnderButton";
 import Colors from "@/constants/Colors";
-import { useRouter } from "expo-router";
-import { FlatList, ScrollView } from "react-native";
+import { User } from "@/constants/Types";
+import { GetTripById, RemovePeople } from "@/services/TripService";
+import { router, useLocalSearchParams } from "expo-router";
+import { FlatList } from "react-native";
 import { Appbar } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
 
 function ListPage() {
-  const router = useRouter();
+  const { id } = useLocalSearchParams();
+  const { trip } = GetTripById(id as string);
+
+  const handleRemovePeople = async (user: User) => {
+    try {
+      await RemovePeople({ userId: user.id, tripId: id as string });
+      Toast.show({
+        type: "error",
+        text1: "Remove People from Trip Successful",
+        text2: `${user.fullname} removed from ${trip?.destination.name} trip!`,
+      });
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Remove People from Trip Failed",
+        text2: error as string,
+      });
+    }
+  };
 
   return (
     <>
@@ -29,34 +50,21 @@ function ListPage() {
         <FlatList
           style={{ paddingHorizontal: 20 }}
           showsHorizontalScrollIndicator={false}
-          data={[
-            {
-              id: 1,
-              name: "Salsabila Ayuni",
-              role: "Trip Owner",
-              imageUrl: "../assets/person.png",
-              add: false,
-            },
-            {
-              id: 2,
-              name: "Nalendra Qiandri",
-              role: "Editor",
-              imageUrl: "../assets/person.png",
-              add: false,
-            },
-          ]}
+          data={trip?.members}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <PersonTile
-              name={item.name}
-              role={item.role}
-              imageUrl={item.imageUrl}
-              add={item.add}
+              name={item.fullname}
+              role={item.id == trip?.owner.id ? "Owner" : "Member"}
+              imageUrl={item.photo_url!}
+              onPress={() => handleRemovePeople(item)}
             />
           )}
         ></FlatList>
         <UnderButton
-          onPress={() => router.push("/(person)/AddPage")}
+          onPress={() =>
+            router.push({ pathname: "/(person)/AddPage", params: { id: id } })
+          }
           text={"Add Person"}
         />
       </SafeAreaView>

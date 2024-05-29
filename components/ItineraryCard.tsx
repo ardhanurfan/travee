@@ -98,8 +98,13 @@ function ItineraryCard({ itineraryItem }: { itineraryItem: ItineraryItem }) {
               }}
             >
               <View style={{ flexDirection: "row" }}>
-                {[0, 1, 2, 3, 4].map((item) => (
-                  <Icon size={16} source={"star"} color={"#EFCE25"}></Icon>
+                {[0, 1, 2, 3, 4].map((item, idx) => (
+                  <Icon
+                    key={idx}
+                    size={16}
+                    source={"star"}
+                    color={"#EFCE25"}
+                  ></Icon>
                 ))}
               </View>
               <Text

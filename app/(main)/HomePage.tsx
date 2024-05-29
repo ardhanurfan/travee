@@ -55,13 +55,7 @@ export default function HomePage() {
           <TouchableOpacity onPress={logout}>
             <Avatar.Image
               size={60}
-              source={
-                user?.photo_url
-                  ? { uri: user?.photo_url }
-                  : {
-                      uri: `https://ui-avatars.com/api/?name=${user?.fullname}+&color=7F9CF5&background=EBF4FF`,
-                    }
-              }
+              source={{ uri: user?.photo_url }}
               style={{ backgroundColor: Colors.primary }}
             />
           </TouchableOpacity>

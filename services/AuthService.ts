@@ -82,6 +82,36 @@ export const RegisterServices = async ({
   }
 };
 
+export function GetAllUsers() {
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      collection(firestore, "users"),
+      (snapshot) => {
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setUsers(data as User[]);
+        setLoading(false);
+      },
+      (error) => {
+        console.error("Error fetching collection: ", error);
+        setError(error);
+        setLoading(false);
+      }
+    );
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, []);
+
+  return { users, loading, error };
+}
+
 export function GetUserData() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -174,6 +204,11 @@ export const AddPersonalizeUser = async ({
       const downloadURL = await getDownloadURL(snapshot.ref);
 
       data = { ...data, photo_url: downloadURL };
+    } else {
+      data = {
+        ...data,
+        photo_url: `https://ui-avatars.com/api/?name=${fullname}+&color=7F9CF5&background=EBF4FF`,
+      };
     }
 
     await setDoc(doc(firestore, `users/${auth.currentUser?.uid}`), data);

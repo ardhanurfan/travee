@@ -5,7 +5,7 @@ export interface User {
   email: string;
   fullname: string;
   phone_number: string;
-  photo_url: string | null;
+  photo_url: string;
   preferences: string[];
 }
 

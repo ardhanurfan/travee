@@ -11,9 +11,9 @@ function PersonTile({
   iconPressed,
 }: {
   name: string;
-  role: string;
+  role?: string;
   imageUrl: string;
-  add: boolean;
+  add?: boolean;
   onPress?: () => void;
   iconPressed?: boolean;
 }) {
@@ -30,7 +30,7 @@ function PersonTile({
     >
       <View style={{ flexDirection: "row", alignItems: "center", gap: 16 }}>
         <Image
-          source={require("../assets/person.png")}
+          source={{ uri: imageUrl }}
           style={{
             width: 72,
             height: 72,
@@ -55,7 +55,7 @@ function PersonTile({
           </Text>
         </View>
       </View>
-      {role == "Trip Owner" ? (
+      {role == "Owner" ? (
         ""
       ) : add ? (
         <TouchableOpacity onPress={onPress}>
@@ -74,7 +74,13 @@ function PersonTile({
           </View>
         </TouchableOpacity>
       ) : (
-        <Icon source="trash-can-outline" size={28} color={Colors.orange}></Icon>
+        <TouchableOpacity onPress={onPress}>
+          <Icon
+            source="trash-can-outline"
+            size={28}
+            color={Colors.orange}
+          ></Icon>
+        </TouchableOpacity>
       )}
     </View>
   );

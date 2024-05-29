@@ -3,10 +3,14 @@ import { Trip, User } from "@/constants/Types";
 import {
   DocumentReference,
   Timestamp,
+  arrayRemove,
+  arrayUnion,
   collection,
   doc,
   getDoc,
   onSnapshot,
+  setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
@@ -136,3 +140,47 @@ export function GetTripById(id: string) {
 
   return { trip, loading, error };
 }
+
+export const AddPeople = async ({
+  users,
+  tripId,
+}: {
+  users: User[];
+  tripId: string;
+}) => {
+  try {
+    const tripRef = doc(firestore, `trips/${tripId}`);
+
+    // Membuat array referensi dokumen pengguna yang akan ditambahkan
+    const userRefs = users.map((user) => doc(firestore, `users/${user.id}`));
+
+    // Memperbarui dokumen trip dengan menambahkan referensi pengguna ke dalam array "members"
+    await updateDoc(tripRef, {
+      members: arrayUnion(...userRefs),
+    });
+  } catch (err) {
+    throw "Internal server error";
+  }
+};
+
+export const RemovePeople = async ({
+  userId,
+  tripId,
+}: {
+  userId: string;
+  tripId: string;
+}) => {
+  try {
+    const tripRef = doc(firestore, `trips/${tripId}`);
+
+    // Membuat array referensi dokumen pengguna yang akan dihapus
+    const userRef = doc(firestore, `users/${userId}`);
+
+    // Memperbarui dokumen trip dengan menghapus referensi pengguna dari array "members"
+    await updateDoc(tripRef, {
+      members: arrayRemove(userRef),
+    });
+  } catch (err) {
+    throw "Internal server error";
+  }
+};
