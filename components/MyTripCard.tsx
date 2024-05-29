@@ -10,7 +10,16 @@ function MyTripCard({ trip }: { trip: Trip }) {
   const router = useRouter();
 
   return (
-    <Pressable onPress={() => router.push(`/TripDetailPage?tripId=${trip.id}`)}>
+    <Pressable
+      onPress={() =>
+        router.push({
+          pathname: "/TripDetailPage",
+          params: {
+            id: trip.id,
+          },
+        })
+      }
+    >
       <View style={{ flex: 1, marginBottom: 16 }}>
         <Image
           source={{ uri: trip.destination.photo_url }}
@@ -55,7 +64,7 @@ function MyTripCard({ trip }: { trip: Trip }) {
             D-122
           </Text>
         </View>
-        <IconButton
+        {/* <IconButton
           icon="share-outline"
           iconColor={Colors.black}
           size={20}
@@ -67,7 +76,7 @@ function MyTripCard({ trip }: { trip: Trip }) {
             borderRadius: 999,
           }}
           onPress={() => console.log("Pressed")}
-        />
+        /> */}
       </View>
     </Pressable>
   );

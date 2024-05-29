@@ -1,9 +1,16 @@
 import Colors from "@/constants/Colors";
+import { ItineraryItem } from "@/constants/Types";
+import { format } from "date-fns";
 import React from "react";
-import { View, Image } from "react-native";
+import { View, Image, Linking, TouchableOpacity } from "react-native";
 import { Icon, Text } from "react-native-paper";
 
-function ItineraryCard() {
+function ItineraryCard({ itineraryItem }: { itineraryItem: ItineraryItem }) {
+  const openGoogleMaps = (latitude: number, longitude: number) => {
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
+    Linking.openURL(url);
+  };
+
   const transportation = [
     {
       icon: "car",
@@ -63,7 +70,7 @@ function ItineraryCard() {
           }}
         >
           <Image
-            source={require("../assets/destination.png")}
+            source={{ uri: itineraryItem.event.photo_url }}
             style={{
               width: "100%",
               height: 160,
@@ -77,7 +84,7 @@ function ItineraryCard() {
                 fontSize: 20,
               }}
             >
-              Ocean Grill
+              {itineraryItem.event.name}
             </Text>
             <View
               style={{
@@ -125,7 +132,10 @@ function ItineraryCard() {
                   color: Colors.black,
                 }}
               >
-                08:00 AM - 09:00 PM
+                {`${format(itineraryItem.time_start, "HH:mm")} - ${format(
+                  itineraryItem.time_finish,
+                  "HH:mm"
+                )}`}
               </Text>
             </View>
             <View
@@ -147,12 +157,18 @@ function ItineraryCard() {
                 $30.00
               </Text>
             </View>
-            <View
+            <TouchableOpacity
               style={{
                 flexDirection: "row",
                 gap: 8,
                 alignItems: "center",
               }}
+              onPress={() =>
+                openGoogleMaps(
+                  itineraryItem.event.latitude,
+                  itineraryItem.event.longitude
+                )
+              }
             >
               <Icon
                 size={20}
@@ -168,7 +184,7 @@ function ItineraryCard() {
               >
                 View on Google Maps
               </Text>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
         <View

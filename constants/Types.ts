@@ -1,3 +1,5 @@
+import { Double } from "react-native/Libraries/Types/CodegenTypes";
+
 export interface User {
   id: string;
   email: string;
@@ -15,7 +17,7 @@ export interface Trip {
   start_date: Date;
   end_date: Date;
   members: User[];
-  owners: User;
+  owner: User;
   preferences: string[];
 }
 
@@ -36,17 +38,18 @@ export interface Event {
   id: string;
   name: string;
   type: string;
+  photo_url: string;
+  longitude: Double;
+  latitude: Double;
 }
 
 export interface ItineraryItem {
-  id: number;
-  name: string;
-  type: string;
-  imageUrl: string;
-  date: Date;
+  event: Event;
+  time_start: Date;
+  time_finish: Date;
 }
 
-export interface GroupedItinerary {
+export interface Itinerary {
   date: string;
-  itineraries: ItineraryItem[];
+  items: ItineraryItem[];
 }

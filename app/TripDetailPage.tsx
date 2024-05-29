@@ -1,30 +1,24 @@
 import ItineraryCard from "@/components/ItineraryCard";
 import Colors from "@/constants/Colors";
-import { format, parse } from "date-fns";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import React from "react";
+import { GetItinerary } from "@/services/ItineraryService";
+import { GetTripById } from "@/services/TripService";
+import { format } from "date-fns";
+import MapView, { Marker } from "react-native-maps";
+import { useLocalSearchParams, router } from "expo-router";
+import React, { useMemo, useState } from "react";
 import { ScrollView, View, Image } from "react-native";
 import { Button, IconButton, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 function TripDetailPage() {
-  const router = useRouter();
-  const { tripId } = useLocalSearchParams();
+  const { id } = useLocalSearchParams();
+  const { trip } = GetTripById(id as string);
+  const { itinerary } = GetItinerary(id as string);
+  const [dateIdx, setDateIdx] = useState(0);
 
-  const tripCalendar = [
-    {
-      id: 1,
-      date: parse("05/18/2024", "MM/dd/yyyy", new Date()),
-    },
-    {
-      id: 2,
-      date: parse("05/19/2024", "MM/dd/yyyy", new Date()),
-    },
-    {
-      id: 3,
-      date: parse("05/20/2024", "MM/dd/yyyy", new Date()),
-    },
-  ];
+  const filteredItinerary = useMemo(() => {
+    return itinerary.length > 0 ? itinerary[dateIdx].items : [];
+  }, [itinerary, dateIdx]);
 
   return (
     <SafeAreaView
@@ -95,14 +89,21 @@ function TripDetailPage() {
             backgroundColor: Colors.primary,
             borderRadius: 999,
           }}
-          onPress={() => router.push("/(itinerary)/EditPage")}
+          onPress={() =>
+            router.push({
+              pathname: "/(itinerary)/EditPage",
+              params: {
+                id: id,
+              },
+            })
+          }
         />
       </View>
 
       {/* Content */}
       <ScrollView showsVerticalScrollIndicator={false}>
         <Image
-          source={require("../assets/destination.png")}
+          source={{ uri: trip?.destination.photo_url }}
           style={{
             width: "100%",
             height: 300,
@@ -117,17 +118,21 @@ function TripDetailPage() {
               marginBottom: 12,
             }}
           >
-            Jogjakarta, Daerah Istimewa Yogyakarta
+            {trip?.destination.name}
           </Text>
           <Text
             style={{
               fontFamily: "Figtree_300Light",
-              fontSize: 16,
+              fontSize: 14,
               color: Colors.gray,
               marginBottom: 12,
             }}
           >
-            Jan 12 - Jan 14, 2025 | A Couple | Luxury
+            {trip &&
+              `${format(trip?.start_date, "dd MMM yyyy")}-${format(
+                trip?.end_date,
+                "dd MMM yyyy"
+              )}  |  ${trip?.count_people}|  ${trip?.budget}`}
           </Text>
 
           {/* Maps */}
@@ -138,7 +143,23 @@ function TripDetailPage() {
               backgroundColor: Colors.secondary,
               borderRadius: 12,
             }}
-          ></View>
+          >
+            <MapView
+              style={{ width: "100%", height: "100%", borderRadius: 12 }}
+            >
+              {itinerary.length > 0 &&
+                itinerary[dateIdx].items.map((item, idx) => (
+                  <Marker
+                    key={idx.toString()}
+                    coordinate={{
+                      latitude: item.event.latitude,
+                      longitude: item.event.longitude,
+                    }}
+                    title={item.event.name}
+                  />
+                ))}
+            </MapView>
+          </View>
 
           {/* Select Kalender */}
           <ScrollView
@@ -146,24 +167,25 @@ function TripDetailPage() {
             showsHorizontalScrollIndicator={false}
             style={{ marginVertical: 16 }}
           >
-            {tripCalendar.map((item) => (
+            {itinerary.map((item, idx) => (
               <Button
-                key={item.id}
+                onPress={() => setDateIdx(idx)}
+                key={idx.toString()}
                 style={{
                   width: 160,
                   backgroundColor:
-                    item.id === 1 ? Colors.primary : Colors.white,
+                    idx === dateIdx ? Colors.primary : Colors.white,
                   borderRadius: 24,
                   marginRight: 12,
                   borderColor: Colors.gray,
-                  borderWidth: item.id === 1 ? 0 : 1,
+                  borderWidth: idx === dateIdx ? 0 : 1,
                 }}
               >
                 <Text
                   style={{
                     fontFamily: "Figtree_400Regular",
                     fontSize: 14,
-                    color: item.id === 1 ? Colors.white : Colors.gray,
+                    color: idx === dateIdx ? Colors.white : Colors.gray,
                     textAlign: "center",
                     paddingVertical: 4,
                   }}
@@ -175,9 +197,9 @@ function TripDetailPage() {
           </ScrollView>
 
           {/* Itinerary */}
-          <ItineraryCard />
-          <ItineraryCard />
-          <ItineraryCard />
+          {filteredItinerary.map((item, idx) => (
+            <ItineraryCard key={idx} itineraryItem={item} />
+          ))}
         </View>
       </ScrollView>
     </SafeAreaView>
