@@ -41,7 +41,7 @@ export const GetRecommendation = async (userInput: string) => {
     let events: Event[] = [];
     for (const destination of destinations) {
       const eventsSnapshot = await getDocs(
-        collection(firestore, `destinations/${destination.id}/events`)
+        collection(firestore, `destinations/${destination.id}/event`)
       );
       const destinationEvents = eventsSnapshot.docs.map((eventDoc) => ({
         id: eventDoc.id,

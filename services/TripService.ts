@@ -230,7 +230,7 @@ export function useAddTrip() {
         await setDoc(doc(tripRef, `events/${event.event.id}`), {
           event: doc(
             firestore,
-            `/destinations/${destination}/events/${event.event.id}`
+            `/destinations/${destination}/event/${event.event.id}`
           ),
           time_start: Timestamp.fromDate(event.time_start),
           time_finish: Timestamp.fromDate(event.time_finish),

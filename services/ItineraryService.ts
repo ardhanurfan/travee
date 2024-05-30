@@ -20,7 +20,7 @@ export function GetItinerary(tripId: string) {
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
-      collection(firestore, `trips/${tripId}/events`),
+      collection(firestore, `trips/${tripId}/event`),
       async (snapshot) => {
         const data = await Promise.all(
           snapshot.docs.map(async (doc) => {
@@ -70,10 +70,10 @@ export const AddItinerary = async ({
     // Memperbarui dokumen trip dengan menambahkan referensi acara ke dalam sub-koleksi "events"
     await Promise.all(
       itineraryItems.map((item) =>
-        setDoc(doc(firestore, `trips/${tripId}/events/${item.event.id}`), {
+        setDoc(doc(firestore, `trips/${tripId}/event/${item.event.id}`), {
           event: doc(
             firestore,
-            `destinations/${destinationId}/events/${item.event.id}`
+            `destinations/${destinationId}/event/${item.event.id}`
           ),
           time_start: Timestamp.fromDate(item.time_start),
           time_finish: Timestamp.fromDate(item.time_finish),
@@ -95,7 +95,7 @@ export const RemoveItinerary = async ({
   try {
     // Membuat array referensi dokumen acara yang akan dihapus
     const itineraryRefs = itineraryItem.map((itemId) =>
-      doc(firestore, `trips/${tripId}/events/${itemId}`)
+      doc(firestore, `trips/${tripId}/event/${itemId}`)
     );
 
     // Menghapus dokumen acara dari sub-koleksi "events"
