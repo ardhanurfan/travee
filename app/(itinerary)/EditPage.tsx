@@ -11,7 +11,7 @@ import { Appbar, Button, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 function EditPage() {
-  const { id } = useLocalSearchParams();
+  const { id, destinationId } = useLocalSearchParams();
   const { itinerary } = GetItinerary(id as string);
 
   return (
@@ -50,7 +50,16 @@ function EditPage() {
               ))}
               <Button
                 mode="contained"
-                onPress={() => router.push("/(itinerary)/AddPage")}
+                onPress={() =>
+                  router.push({
+                    pathname: "/(itinerary)/AddPage",
+                    params: {
+                      id: id,
+                      idxDate: idx,
+                      destinationId: destinationId,
+                    },
+                  })
+                }
                 style={{
                   backgroundColor: Colors.secondary,
                   borderRadius: 28,

@@ -99,6 +99,7 @@ function TripDetailPage() {
               pathname: "/(itinerary)/EditPage",
               params: {
                 id: id,
+                destinationId: trip?.destination.id,
               },
             })
           }

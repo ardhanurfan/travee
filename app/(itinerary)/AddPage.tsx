@@ -1,24 +1,81 @@
 import ItineraryTile from "@/components/ItineraryTile";
-import PersonTile from "@/components/PersonTile";
 import UnderButton from "@/components/UnderButton";
 import Colors from "@/constants/Colors";
-import { useRouter } from "expo-router";
-import { useState } from "react";
+import { AddItinerary, GetItinerary } from "@/services/ItineraryService";
+import { router, useLocalSearchParams } from "expo-router";
+import { useMemo, useState } from "react";
 import { FlatList, ScrollView, View } from "react-native";
 import { Appbar, TextInput, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Event } from "@/constants/Types";
+import Toast from "react-native-toast-message";
+import { GetTripById } from "@/services/TripService";
+import { GetEvents } from "@/services/DestinationService";
 
 function AddPage() {
-  const router = useRouter();
-  const [pressedIds, setPressedIds] = useState<number[]>([]);
+  const { id, idxDate, destinationId } = useLocalSearchParams();
+  const { itinerary } = GetItinerary(id as string);
+  const { events } = GetEvents({ destinationId: destinationId as string });
+  const [addedEvents, setAddedEvents] = useState<Event[]>([]);
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handlePress = (id: number) => {
-    setPressedIds((prevPressedIds: any) =>
-      prevPressedIds.includes(id)
-        ? prevPressedIds.filter((pressedId: number) => pressedId !== id)
-        : [...prevPressedIds, id]
+  const adjustItineraryItem = () => {
+    return addedEvents.map((event) => ({
+      event: event,
+      time_start: new Date(),
+      time_finish: new Date(),
+    }));
+  };
+
+  const handleAddItinerary = async () => {
+    try {
+      await AddItinerary({
+        itineraryItems: adjustItineraryItem(),
+        tripId: id as string,
+        destinationId: destinationId as string,
+      });
+      setLoading(true);
+      Toast.show({
+        type: "success",
+        text1: "Add Itinerary to Trip Successful",
+        text2: `Enjoy your trip!`,
+      });
+      router.back();
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Add Itinerary to Trip Failed",
+        text2: error as string,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePress = (event: Event) => {
+    setAddedEvents((prevAddedEvents) =>
+      prevAddedEvents.find((eventAdded) => eventAdded.id === event.id)
+        ? prevAddedEvents.filter((eventAdded) => eventAdded.id !== event.id)
+        : [...prevAddedEvents, event]
     );
   };
+
+  const filtered = useMemo(() => {
+    return events
+      .filter((event) => {
+        const idx = Number.parseInt(idxDate as string);
+        if (itinerary[idx]) {
+          const selected = itinerary[idx].items;
+          return !selected.find((item) => item.event.id === event.id);
+        }
+        return true;
+      })
+      .filter((event) =>
+        event.name.toLowerCase().includes(search.toLowerCase())
+      );
+  }, [events, itinerary, search]);
+
   return (
     <>
       <Appbar.Header style={{ backgroundColor: Colors.white }}>
@@ -44,6 +101,8 @@ function AddPage() {
             left={<TextInput.Icon icon="magnify" color={Colors.gray} />}
             cursorColor={Colors.primary}
             placeholderTextColor={Colors.gray}
+            value={search}
+            onChangeText={setSearch}
             style={{
               backgroundColor: Colors.lightGray,
               borderTopRightRadius: 12,
@@ -58,37 +117,26 @@ function AddPage() {
         <FlatList
           showsHorizontalScrollIndicator={false}
           style={{ paddingHorizontal: 20 }}
-          data={[
-            {
-              id: 1,
-              name: "Ocean Grill 1",
-              type: "Restaurant",
-              imageUrl: "../assets/itinerary.png",
-            },
-            {
-              id: 2,
-              name: "Ocean Grill 3",
-              type: "Restaurant",
-              imageUrl: "../assets/itinerary.png",
-            },
-            {
-              id: 3,
-              name: "Ocean Grill 2",
-              type: "Restaurant",
-              imageUrl: "../assets/itinerary.png",
-            },
-          ]}
+          data={filtered}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <ItineraryTile
               name={item.name}
               type={item.type}
-              imageUrl={item.imageUrl}
+              imageUrl={item.photo_url}
               add
+              onPress={() => handlePress(item)}
+              iconPressed={
+                addedEvents.find((event) => event.id == item.id) ? true : false
+              }
             />
           )}
         ></FlatList>
-        <UnderButton onPress={() => {}} text={"Save"} />
+        <UnderButton
+          loading={loading}
+          onPress={handleAddItinerary}
+          text={"Save"}
+        />
       </SafeAreaView>
     </>
   );
