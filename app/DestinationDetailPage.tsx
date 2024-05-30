@@ -1,5 +1,6 @@
 import UnderButton from "@/components/UnderButton";
 import Colors from "@/constants/Colors";
+import { usePersonalize } from "@/context/PersonalizeContext";
 import {
   GetSaved,
   toggleBookmarkDestination,
@@ -8,7 +9,7 @@ import { GetDestinationById } from "@/services/DestinationService";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 import { ScrollView, Image, View } from "react-native";
-import { Button, IconButton, Text } from "react-native-paper";
+import { IconButton, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 
@@ -17,6 +18,7 @@ function DestinationDetailPage() {
   const { id } = useLocalSearchParams();
   const { destination } = GetDestinationById(id as string);
   const { savedDestinations } = GetSaved();
+  const { setDestination, setPhotoUrl, setCountry, setName } = usePersonalize();
 
   const handleBookmark = async () => {
     try {
@@ -128,7 +130,13 @@ function DestinationDetailPage() {
 
       <UnderButton
         text="Start a Trip"
-        onPress={() => router.push("/(personalizeTrip)/FirstPage")}
+        onPress={() => {
+          router.push("/(personalizeTrip)/FirstPage");
+          setDestination(id as string);
+          setPhotoUrl(destination ? destination.photo_url : "");
+          setCountry(destination ? destination.country : "");
+          setName(destination ? destination.name : "");
+        }}
       />
     </SafeAreaView>
   );

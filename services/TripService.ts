@@ -1,10 +1,11 @@
 import { auth, firestore } from "@/config/firebase";
-import { Trip, User } from "@/constants/Types";
+import { ItineraryItem, Trip, User } from "@/constants/Types";
 import {
   DocumentReference,
   Timestamp,
   arrayRemove,
   arrayUnion,
+  addDoc,
   collection,
   doc,
   getDoc,
@@ -184,3 +185,62 @@ export const RemovePeople = async ({
     throw "Internal server error";
   }
 };
+
+export function useAddTrip() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Error | null | unknown>(null);
+
+  const addTrip = async ({
+    budget,
+    count_people,
+    destination,
+    start_date,
+    end_date,
+    members,
+    owners,
+    preferences,
+    events,
+  }: {
+    budget: string;
+    count_people: string;
+    destination: string;
+    start_date: Date;
+    end_date: Date;
+    members: string[];
+    owners: string |undefined;
+    preferences: string[];
+    events: ItineraryItem[];
+  }) => {
+    setLoading(true);
+    try {
+      // Add the trip to the 'trips' collection
+      const tripRef = await addDoc(collection(firestore, "trips"), {
+        budget: budget,
+        count_people: count_people,
+        destination: doc(firestore, `/destinations/${destination}`),
+        start_date: Timestamp.fromDate(start_date),
+        end_date: Timestamp.fromDate(end_date),
+        members: members.map((user) => doc(firestore, `/users/${user}`)),
+        owner: doc(firestore, `/users/${owners}`),
+        preferences: preferences,
+      });
+
+      // Add events related to the trip
+      for (const event of events) {
+        await addDoc(collection(tripRef, "events"), {
+          event: doc(firestore, `/destinations/${destination}/events/${event.event.id}`),
+          time_start: Timestamp.fromDate(event.time_start),
+          time_finish: Timestamp.fromDate(event.time_finish),
+        });
+      }
+
+      setLoading(false);
+    } catch (error) {
+      console.error("Error adding trip: ", error);
+      setError(error);
+      setLoading(false);
+    }
+  };
+
+  return { addTrip, loading, error };
+}

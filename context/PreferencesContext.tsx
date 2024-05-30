@@ -8,7 +8,7 @@ export type PreferencesTypeContext = {
 const defaultValue = {
   preferences: [],
   setPreferences: () => {},
-};
+};  
 
 export const PreferencesContext =
   createContext<PreferencesTypeContext>(defaultValue);

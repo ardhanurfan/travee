@@ -1,21 +1,20 @@
 import PreferenceContent from "@/components/PreferenceContent";
 import UnderButton from "@/components/UnderButton";
-import { usePreferences } from "@/context/PreferencesContext";
+import { usePersonalize } from "@/context/PersonalizeContext";
 import { useRouter } from "expo-router";
 import {
-  Dimensions,
   View,
   Text,
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { Appbar, Button } from "react-native-paper";
+import { Appbar } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
 function ThirdPage() {
   const router = useRouter();
-  const { preferences, setPreferences } = usePreferences();
+  const { preferences, setPreferences } = usePersonalize();
 
   const preferencesData = [
     "Adventure Travel 🔍",
