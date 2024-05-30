@@ -11,7 +11,7 @@ import { Event } from "@/constants/Types";
 import Toast from "react-native-toast-message";
 import { GetTripById } from "@/services/TripService";
 import { GetEvents } from "@/services/DestinationService";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 
 function AddPage() {
   const { id, date, destinationId } = useLocalSearchParams();
@@ -22,10 +22,24 @@ function AddPage() {
   const [loading, setLoading] = useState(false);
 
   const adjustItineraryItem = () => {
+    const time_start = parse(date as string, "yyyy-MM-dd", new Date());
+    const time_finish = parse(date as string, "yyyy-MM-dd", new Date());
+    if (eventInDate && eventInDate.length > 0) {
+      time_start.setHours(
+        eventInDate[eventInDate.length - 1].time_finish.getHours()
+      );
+      time_finish.setHours(
+        eventInDate[eventInDate.length - 1].time_finish.getHours() + 3
+      );
+    } else {
+      time_start.setHours(6);
+      time_finish.setHours(9);
+    }
+
     return addedEvents.map((event) => ({
       event: event,
-      time_start: new Date(),
-      time_finish: new Date(),
+      time_start: time_start,
+      time_finish: time_finish,
     }));
   };
 
