@@ -61,7 +61,7 @@ function MyTripCard({ trip }: { trip: Trip }) {
           }}
         >
           <Text style={{ fontFamily: "Figtree_700Bold", fontSize: 12 }}>
-            D-122
+            {trip.destination.id}
           </Text>
         </View>
         {/* <IconButton

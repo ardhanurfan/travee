@@ -14,27 +14,27 @@ function ItineraryCard({ itineraryItem }: { itineraryItem: ItineraryItem }) {
   const transportation = [
     {
       icon: "car",
-      time: "9 min",
+      time: "12 min",
     },
     {
       icon: "motorbike",
-      time: "9 min",
+      time: "5 min",
     },
     {
       icon: "walk",
-      time: "9 min",
+      time: "20 min",
     },
     {
       icon: "bus",
-      time: "9 min",
+      time: "14 min",
     },
     {
       icon: "train",
-      time: "9 min",
+      time: "-",
     },
     {
       icon: "airplane",
-      time: "9 min",
+      time: "-",
     },
   ];
 
@@ -159,7 +159,7 @@ function ItineraryCard({ itineraryItem }: { itineraryItem: ItineraryItem }) {
                   color: Colors.black,
                 }}
               >
-                $30.00
+                {itineraryItem.event.price}
               </Text>
             </View>
             <TouchableOpacity

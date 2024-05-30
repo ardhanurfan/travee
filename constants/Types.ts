@@ -41,6 +41,7 @@ export interface Event {
   photo_url: string;
   longitude: Double;
   latitude: Double;
+  price: string;
 }
 
 export interface ItineraryItem {

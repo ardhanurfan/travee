@@ -60,15 +60,14 @@ export function GetDestinationById(id: string) {
   return { destination, loading, error };
 }
 
-
-export function GetEvents({destinationId}:{destinationId:string}) {
+export function GetEvents({ destinationId }: { destinationId: string }) {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
-      collection(firestore, `destinations/${destinationId}/events`),
+      collection(firestore, `destinations/${destinationId}/event`),
       (snapshot) => {
         const data = snapshot.docs.map((doc) => ({
           id: doc.id,
