@@ -6,7 +6,8 @@ import { usePersonalize } from "@/context/PersonalizeContext";
 import { GetEvents } from "@/services/DestinationService";
 import { useAddTrip } from "@/services/TripService";
 import { useRouter } from "expo-router";
-import { ScrollView, View, Image } from "react-native";
+import { useState, useEffect } from "react";
+import { ScrollView, View, Image, Modal, Animated, Easing } from "react-native";
 import { Appbar, Icon, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -22,13 +23,59 @@ function SummaryPage() {
     country,
     photo_url,
     destination,
-    clear
+    clear,
   } = usePersonalize();
   const formatDate = (date: Date): string => {
     return date.toLocaleDateString();
   };
   const { addTrip, loading, error } = useAddTrip();
   const { events } = GetEvents({ destinationId: destination });
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [count, setCount] = useState(0);
+  const animatedValue = new Animated.Value(0);
+  const [tripAdded, setTripAdded] = useState(false);
+
+  const animateCount = () => {
+    Animated.timing(animatedValue, {
+      toValue: count,
+      duration: 1000,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  useEffect(() => {
+    animateCount();
+  }, [count]);
+
+  useEffect(() => {
+    if (count === 100) {
+      setTripAdded(true);
+    }
+  }, [count]);
+
+  useEffect(() => {
+    if (tripAdded) {
+      for (let i = 0; i < 6; i++) {
+        router.back();
+      }
+      clear();
+      // Redirect to ListPage after adding trip
+      router.replace("/(main)/MyTripsPage");
+    }
+  }, [tripAdded]);
+
+  const animateCountUp = () => {
+    let currentValue = 0;
+    const increment = () => {
+      if (currentValue < 100) {
+        currentValue += 1;
+        setCount(currentValue);
+        requestAnimationFrame(increment);
+      }
+    };
+    requestAnimationFrame(increment);
+  };
 
   const handleAddTrip = async () => {
     // Add trip and events to Firestore
@@ -47,12 +94,7 @@ function SummaryPage() {
         time_start: start_date,
       })),
     });
-    for (let i = 0; i < 6; i++) {
-      router.back();
-    }
-    clear()
-    // Redirect to ListPage after adding trip
-    router.replace("/(main)/MyTripsPage");
+    animateCountUp();
   };
 
   return (
@@ -352,10 +394,70 @@ function SummaryPage() {
           </View>
         </ScrollView>
         <UnderButton
-          onPress={() => handleAddTrip()}
+          onPress={() => {
+            setModalVisible(true);
+            handleAddTrip();
+          }}
           text="Build My Itinerary"
         />
       </SafeAreaView>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            paddingHorizontal: 48,
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: Colors.white,
+              padding: 20,
+              borderRadius: 10,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: "Figtree_700Bold",
+                fontSize: 56,
+                marginBottom: 20,
+                color: Colors.primary,
+              }}
+            >{`${Math.floor(count)}%`}</Text>
+            <Text
+              style={{
+                fontFamily: "Figtree_700Bold",
+                fontSize: 16,
+                marginBottom: 8,
+              }}
+            >
+              Generating Itinerary
+            </Text>
+            <Text
+              style={{
+                fontFamily: "Figtree_400Regular",
+                fontSize: 12,
+                color: Colors.gray,
+                textAlign: "center",
+              }}
+            >
+              Please wait while our AI works its magic to create the perfect
+              trip plan tailord to your preferences
+            </Text>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 }

@@ -36,6 +36,7 @@
     "react-dom": "18.2.0",
     "react-native": "0.74.1",
     "react-native-calendar-picker": "^8.0.4",
+    "react-native-countup": "^0.0.2",
     "react-native-dotenv": "^3.4.11",
     "react-native-maps": "1.14.0",
     "react-native-paper": "^5.12.3",
