@@ -227,7 +227,7 @@ export function useAddTrip() {
 
       // Add events related to the trip
       for (const event of events) {
-        await setDoc(doc(tripRef, `events/${event.event.id}`), {
+        await setDoc(doc(tripRef, `/event/${event.event.id}`), {
           event: doc(
             firestore,
             `/destinations/${destination}/event/${event.event.id}`

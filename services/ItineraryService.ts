@@ -89,17 +89,18 @@ export const RemoveItinerary = async ({
   itineraryItem,
   tripId,
 }: {
-  itineraryItem: ItineraryItem[];
+  itineraryItem: ItineraryItem;
   tripId: string;
 }) => {
   try {
     // Membuat array referensi dokumen acara yang akan dihapus
-    const itineraryRefs = itineraryItem.map((itemId) =>
-      doc(firestore, `trips/${tripId}/event/${itemId}`)
+    const itineraryRefs = doc(
+      firestore,
+      `trips/${tripId}/event/${itineraryItem.event.id}`
     );
 
     // Menghapus dokumen acara dari sub-koleksi "events"
-    await Promise.all(itineraryRefs.map((ref) => deleteDoc(ref)));
+    await deleteDoc(itineraryRefs);
   } catch (err) {
     throw "Internal server error";
   }

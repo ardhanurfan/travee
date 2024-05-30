@@ -9,6 +9,7 @@ import React, { useMemo, useState } from "react";
 import { ScrollView, View, Image } from "react-native";
 import { Button, IconButton, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { generateDateRange } from "@/utils/generateDateRange";
 
 function TripDetailPage() {
   const { id } = useLocalSearchParams();
@@ -16,8 +17,18 @@ function TripDetailPage() {
   const { itinerary } = GetItinerary(id as string);
   const [dateIdx, setDateIdx] = useState(0);
 
+  const dateRange = useMemo(() => {
+    return generateDateRange(trip?.start_date!, trip?.end_date!);
+  }, [trip]);
+
   const filteredItinerary = useMemo(() => {
-    return itinerary.length > 0 ? itinerary[dateIdx].items : [];
+    return (
+      itinerary.find(
+        (itinerary) =>
+          format(itinerary.date, "yyyy-MM-dd") ===
+          format(dateRange[dateIdx], "yyyy-MM-dd")
+      )?.items || []
+    );
   }, [itinerary, dateIdx]);
 
   return (
@@ -129,7 +140,7 @@ function TripDetailPage() {
           <Text
             style={{
               fontFamily: "Figtree_300Light",
-              fontSize: 14,
+              fontSize: 12,
               color: Colors.gray,
               marginBottom: 12,
             }}
@@ -153,8 +164,8 @@ function TripDetailPage() {
             <MapView
               style={{ width: "100%", height: "100%", borderRadius: 12 }}
             >
-              {itinerary.length > 0 &&
-                itinerary[dateIdx].items.map((item, idx) => (
+              {filteredItinerary.length > 0 &&
+                filteredItinerary.map((item, idx) => (
                   <Marker
                     key={idx}
                     coordinate={{
@@ -173,7 +184,7 @@ function TripDetailPage() {
             showsHorizontalScrollIndicator={false}
             style={{ marginVertical: 16 }}
           >
-            {itinerary.map((item, idx) => (
+            {dateRange.map((date, idx) => (
               <Button
                 key={idx}
                 onPress={() => setDateIdx(idx)}
@@ -196,16 +207,30 @@ function TripDetailPage() {
                     paddingVertical: 4,
                   }}
                 >
-                  {format(item.date, "dd MMM yyyy")}
+                  {format(date, "dd MMM yyyy")}
                 </Text>
               </Button>
             ))}
           </ScrollView>
 
           {/* Itinerary */}
-          {filteredItinerary.map((item, idx) => (
-            <ItineraryCard key={idx} itineraryItem={item} />
-          ))}
+
+          {filteredItinerary.length > 0 ? (
+            filteredItinerary.map((item, idx) => (
+              <ItineraryCard key={idx} itineraryItem={item} />
+            ))
+          ) : (
+            <Text
+              style={{
+                fontFamily: "Figtree_400Regular",
+                fontSize: 14,
+                textAlign: "center",
+                color: Colors.gray,
+              }}
+            >
+              You haven't added any itinerary yet in this day
+            </Text>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>

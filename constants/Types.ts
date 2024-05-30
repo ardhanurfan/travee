@@ -32,6 +32,7 @@ export interface Destination {
   id: string;
   name: string;
   photo_url: string;
+  description: string;
 }
 
 export interface Event {

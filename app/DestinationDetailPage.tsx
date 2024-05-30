@@ -120,10 +120,7 @@ function DestinationDetailPage() {
               textAlign: "justify",
             }}
           >
-            Jogjakarta, often called Yogyakarta, is a cultural hub in Java known
-            for its rich history, royal heritage, and vibrant arts scene. It is
-            home to the majestic temples of Borobudur and Prambanan and offers a
-            deep dive into Javanese traditions and craftsmanship.
+            {destination?.description}
           </Text>
         </View>
       </ScrollView>

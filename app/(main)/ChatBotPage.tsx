@@ -32,9 +32,10 @@ export default function ChatBotPage() {
 
   const handleSend = async () => {
     setLoading(true);
-    if (message === "") return;
-    setMessage("");
-    await GetRecommendation(message);
+    if (message !== "") {
+      setMessage("");
+      await GetRecommendation(message);
+    }
     setLoading(false);
   };
 

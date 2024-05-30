@@ -61,7 +61,7 @@ function MyTripCard({ trip }: { trip: Trip }) {
           }}
         >
           <Text style={{ fontFamily: "Figtree_700Bold", fontSize: 12 }}>
-            {trip.destination.id}
+            {trip.destination.id.toLocaleUpperCase()}
           </Text>
         </View>
         {/* <IconButton

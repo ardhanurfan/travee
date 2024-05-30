@@ -28,7 +28,7 @@ function PersonTile({
         alignItems: "center",
       }}
     >
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 16 }}>
+      <View style={{ flexDirection: "row", alignItems: "center", flex: 1 }}>
         <Image
           source={{ uri: imageUrl }}
           style={{
@@ -38,8 +38,12 @@ function PersonTile({
             objectFit: "cover",
           }}
         />
-        <View>
-          <Text style={{ fontFamily: "Figtree_600SemiBold", fontSize: 18 }}>
+        <View style={{ flex: 1, marginLeft: 16 }}>
+          <Text
+            style={{ fontFamily: "Figtree_600SemiBold", fontSize: 16 }}
+            numberOfLines={2}
+            ellipsizeMode="tail"
+          >
             {name}
           </Text>
           <Text
@@ -50,6 +54,8 @@ function PersonTile({
               marginTop: 2,
               display: add ? "none" : "flex",
             }}
+            numberOfLines={1}
+            ellipsizeMode="tail"
           >
             {role}
           </Text>

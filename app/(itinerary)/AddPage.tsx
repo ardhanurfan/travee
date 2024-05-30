@@ -11,9 +11,10 @@ import { Event } from "@/constants/Types";
 import Toast from "react-native-toast-message";
 import { GetTripById } from "@/services/TripService";
 import { GetEvents } from "@/services/DestinationService";
+import { format } from "date-fns";
 
 function AddPage() {
-  const { id, idxDate, destinationId } = useLocalSearchParams();
+  const { id, date, destinationId } = useLocalSearchParams();
   const { itinerary } = GetItinerary(id as string);
   const { events } = GetEvents({ destinationId: destinationId as string });
   const [addedEvents, setAddedEvents] = useState<Event[]>([]);
@@ -61,16 +62,16 @@ function AddPage() {
     );
   };
 
+  const eventInDate = useMemo(() => {
+    return itinerary.find((item) => format(item.date, "yyyy-MM-dd") !== date)
+      ?.items;
+  }, [itinerary, date]);
+
   const filtered = useMemo(() => {
     return events
-      .filter((event) => {
-        const idx = Number.parseInt(idxDate as string);
-        if (itinerary[idx]) {
-          const selected = itinerary[idx].items;
-          return !selected.find((item) => item.event.id === event.id);
-        }
-        return true;
-      })
+      .filter((event) =>
+        eventInDate?.find((item) => item.event.id === event.id)
+      )
       .filter((event) =>
         event.name.toLowerCase().includes(search.toLowerCase())
       );

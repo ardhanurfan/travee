@@ -2,7 +2,7 @@ import Colors from "@/constants/Colors";
 import { View, Image, TouchableOpacity } from "react-native";
 import { Icon, Text } from "react-native-paper";
 
-function ItineraryTile({
+export function ItineraryTile({
   name,
   type,
   imageUrl,
@@ -26,9 +26,9 @@ function ItineraryTile({
         alignItems: "center",
       }}
     >
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 16 }}>
+      <View style={{ flexDirection: "row", alignItems: "center", flex: 1 }}>
         <Image
-          source={require("../assets/itinerary.png")}
+          source={{ uri: imageUrl }}
           style={{
             width: 120,
             height: 72,
@@ -36,8 +36,12 @@ function ItineraryTile({
             objectFit: "cover",
           }}
         />
-        <View>
-          <Text style={{ fontFamily: "Figtree_600SemiBold", fontSize: 18 }}>
+        <View style={{ flex: 1, marginLeft: 16 }}>
+          <Text
+            style={{ fontFamily: "Figtree_600SemiBold", fontSize: 16 }}
+            numberOfLines={2}
+            ellipsizeMode="tail"
+          >
             {name}
           </Text>
           <Text
@@ -46,8 +50,9 @@ function ItineraryTile({
               fontSize: 12,
               color: Colors.gray,
               marginTop: 2,
-              display: "flex",
             }}
+            numberOfLines={1}
+            ellipsizeMode="tail"
           >
             {type}
           </Text>
@@ -66,11 +71,13 @@ function ItineraryTile({
               source="plus"
               size={24}
               color={iconPressed ? Colors.white : Colors.primary}
-            ></Icon>
+            />
           </View>
         </TouchableOpacity>
       ) : (
-        <Icon source="trash-can-outline" size={28} color={Colors.orange}></Icon>
+        <TouchableOpacity onPress={onPress}>
+          <Icon source="trash-can-outline" size={28} color={Colors.orange} />
+        </TouchableOpacity>
       )}
     </View>
   );
