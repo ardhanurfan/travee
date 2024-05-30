@@ -10,6 +10,8 @@ import { useState, useEffect } from "react";
 import { ScrollView, View, Image, Modal, Animated, Easing } from "react-native";
 import { Appbar, Icon, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { addDays, differenceInDays, startOfDay, endOfDay } from "date-fns";
+import { Event, ItineraryItem } from "@/constants/Types";
 
 function SummaryPage() {
   const router = useRouter();
@@ -77,7 +79,82 @@ function SummaryPage() {
     requestAnimationFrame(increment);
   };
 
+  function getRandomDateWithinDay(day: Date): { start: Date; end: Date } {
+    const startHour = 6;
+    const endHour = 22;
+
+    const start = new Date(day);
+    const randomHour =
+      Math.floor(Math.random() * (endHour - startHour)) + startHour;
+    const randomMinute = Math.floor(Math.random() * 60);
+
+    start.setHours(randomHour, randomMinute, 0, 0);
+
+    const end = new Date(start);
+    const eventDuration = Math.floor(Math.random() * 3) + 1;
+    end.setHours(start.getHours() + eventDuration);
+
+    // Ensure end time does not go beyond 10 PM
+    if (
+      end.getHours() > endHour ||
+      (end.getHours() === endHour && end.getMinutes() > 0)
+    ) {
+      end.setHours(endHour, 0, 0, 0);
+    }
+
+    return { start, end };
+  }
+
+  function getRandomSubset<T>(array: T[], min: number): T[] {
+    const shuffled = array.sort(() => 0.5 - Math.random());
+    const subsetSize =
+      Math.floor(Math.random() * (shuffled.length - min + 1)) + min;
+    return shuffled.slice(0, subsetSize);
+  }
+
+  function randomizeEvents(
+    events: Event[],
+    startDate: Date,
+    endDate: Date
+  ): ItineraryItem[] {
+    const totalDays = differenceInDays(endDate, startDate) + 1;
+    const eventsPerDay: { [key: string]: Event[] } = {};
+
+    // Ensure each day has at least one event
+    for (let i = 0; i < totalDays; i++) {
+      const currentDay = addDays(startDate, i).toISOString().split("T")[0]; // Use date string as key
+      eventsPerDay[currentDay] = [];
+    }
+
+    const selectedEvents = getRandomSubset(events, totalDays);
+
+    selectedEvents.forEach((event) => {
+      const dayIndex = Math.floor(Math.random() * totalDays);
+      const day = addDays(startDate, dayIndex).toISOString().split("T")[0];
+      eventsPerDay[day].push(event);
+    });
+
+    const randomizedEvents: ItineraryItem[] = [];
+    for (let day in eventsPerDay) {
+      eventsPerDay[day].forEach((event) => {
+        const { start, end } = getRandomDateWithinDay(new Date(day));
+        randomizedEvents.push({
+          event: event,
+          time_start: start,
+          time_finish: end,
+        });
+      });
+    }
+
+    return randomizedEvents;
+  }
+
+  // Example usage within handleAddTrip function
   const handleAddTrip = async () => {
+    // Randomize events with start and end dates
+    const randomizedEvents = randomizeEvents(events, start_date, end_date);
+
+    animateCountUp();
     // Add trip and events to Firestore
     await addTrip({
       budget: budget,
@@ -88,14 +165,51 @@ function SummaryPage() {
       members: [auth.currentUser ? auth.currentUser.uid : ""],
       owners: auth.currentUser?.uid,
       preferences: preferences,
-      events: events.map((event) => ({
-        event: event,
-        time_finish: start_date,
-        time_start: start_date,
-      })),
+      events: randomizedEvents,
     });
-    animateCountUp();
+
   };
+
+  // Example usage within handleAddTrip function
+  // const handleAddTrip = async () => {
+  //   // Randomize events with start and end dates
+  //   const randomizedEvents = randomizeEvents(events, start_date, end_date);
+
+  //   // Add trip and events to Firestore
+  //   await addTrip({
+  //     budget: budget,
+  //     count_people: count_people,
+  //     destination: destination,
+  //     start_date: start_date,
+  //     end_date: end_date,
+  //     members: [auth.currentUser ? auth.currentUser.uid : ""],
+  //     owners: auth.currentUser?.uid,
+  //     preferences: preferences,
+  //     events: randomizedEvents,
+  //   });
+
+  //   animateCountUp();
+  // };
+
+  // const handleAddTrip = async () => {
+  //   // Add trip and events to Firestore
+  //   await addTrip({
+  //     budget: budget,
+  //     count_people: count_people,
+  //     destination: destination,
+  //     start_date: start_date,
+  //     end_date: end_date,
+  //     members: [auth.currentUser ? auth.currentUser.uid : ""],
+  //     owners: auth.currentUser?.uid,
+  //     preferences: preferences,
+  //     events: events.map((event) => ({
+  //       event: event,
+  //       time_finish: start_date,
+  //       time_start: start_date,
+  //     })),
+  //   });
+  //   animateCountUp();
+  // };
 
   return (
     <>
