@@ -77,14 +77,14 @@ function AddPage() {
   };
 
   const eventInDate = useMemo(() => {
-    return itinerary.find((item) => format(item.date, "yyyy-MM-dd") !== date)
+    return itinerary.find((item) => format(item.date, "yyyy-MM-dd") === date)
       ?.items;
   }, [itinerary, date]);
 
   const filtered = useMemo(() => {
     return events
       .filter((event) =>
-        eventInDate?.find((item) => item.event.id === event.id)
+        !eventInDate?.find((item) => item.event.id === event.id)
       )
       .filter((event) =>
         event.name.toLowerCase().includes(search.toLowerCase())

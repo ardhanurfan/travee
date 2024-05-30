@@ -52,6 +52,7 @@ function FirstPage() {
               height: 400,
               objectFit: "fill",
               position: "absolute",
+              resizeMode: "cover",
               bottom: 0,
               // zIndex: -1,
             }}
