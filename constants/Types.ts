@@ -53,3 +53,10 @@ export interface Itinerary {
   date: string;
   items: ItineraryItem[];
 }
+
+export interface Chat {
+  id: string;
+  message: string;
+  isUser: boolean;
+  time: Date;
+}
