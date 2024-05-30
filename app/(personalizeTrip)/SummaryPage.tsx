@@ -145,7 +145,7 @@ function SummaryPage() {
         });
       });
     }
-
+    console.log(randomizeEvents);
     return randomizedEvents;
   }
 
@@ -167,7 +167,6 @@ function SummaryPage() {
       preferences: preferences,
       events: randomizedEvents,
     });
-
   };
 
   // Example usage within handleAddTrip function

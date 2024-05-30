@@ -53,7 +53,7 @@ function SecondPage() {
               objectFit: "fill",
               position: "absolute",
               bottom: 0,
-              zIndex: -1,
+              // zIndex: -1,
             }}
           />
           <View

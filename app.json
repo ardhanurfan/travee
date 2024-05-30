@@ -21,6 +21,11 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#5850FE"
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBzo3vyogEYn0-EYWanPM_8pvygr316cvI"
+        }
       }
     },
     "web": {
@@ -31,6 +36,14 @@
     "plugins": ["expo-router", "expo-font"],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "b8adddb0-9f81-4890-8136-649e35049b6a"
+      }
     }
   }
 }
