@@ -207,7 +207,7 @@ export function useAddTrip() {
     start_date: Date;
     end_date: Date;
     members: string[];
-    owners: string |undefined;
+    owners: string | undefined;
     preferences: string[];
     events: ItineraryItem[];
   }) => {
@@ -227,8 +227,11 @@ export function useAddTrip() {
 
       // Add events related to the trip
       for (const event of events) {
-        await addDoc(collection(tripRef, "events"), {
-          event: doc(firestore, `/destinations/${destination}/events/${event.event.id}`),
+        await setDoc(doc(tripRef, `events/${event.event.id}`), {
+          event: doc(
+            firestore,
+            `/destinations/${destination}/events/${event.event.id}`
+          ),
           time_start: Timestamp.fromDate(event.time_start),
           time_finish: Timestamp.fromDate(event.time_finish),
         });
