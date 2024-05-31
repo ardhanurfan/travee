@@ -18,10 +18,12 @@ function TripDetailPage() {
   const [dateIdx, setDateIdx] = useState(0);
 
   const dateRange = useMemo(() => {
+    if (!trip) return [];
     return generateDateRange(trip?.start_date!, trip?.end_date!);
   }, [trip]);
 
   const filteredItinerary = useMemo(() => {
+    if (!itinerary || dateRange.length === 0) return [];
     return (
       itinerary.find(
         (itinerary) =>
@@ -29,7 +31,7 @@ function TripDetailPage() {
           format(dateRange[dateIdx], "yyyy-MM-dd")
       )?.items || []
     );
-  }, [itinerary, dateIdx]);
+  }, [itinerary, dateIdx, dateRange]);
 
   return (
     <SafeAreaView
@@ -82,7 +84,7 @@ function TripDetailPage() {
               backgroundColor: Colors.white,
               borderRadius: 999,
             }}
-            onPress={() => console.log("Pressed")}
+            onPress={() => router.push({ pathname: "/(splitBill)/ListPage" })}
           />
         </View>
       </View>
